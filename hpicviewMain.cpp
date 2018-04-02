@@ -133,13 +133,26 @@ void hpicviewFrame::OnRotateLeft(wxCommandEvent& event) {
 void hpicviewFrame::OpenFile(const wxString & filename) {
     try {
         this->filename = "";
+        auto path = boost::filesystem::path(filename);
         this->jpegdata = get_file_contents(std::string(filename));
         SetJPEG(jpegdata);
         this->modification_date =
-            boost::filesystem::last_write_time(
-                boost::filesystem::path(filename)
-            );
+            boost::filesystem::last_write_time(path);
         this->filename = filename;
+
+        boost::filesystem::directory_iterator directory_iterator =
+            boost::filesystem::directory_iterator(path.parent_path());
+        filenames_images.clear();
+        std::copy_if(
+            directory_iterator, {},
+            std::back_inserter(filenames_images),
+            [](const boost::filesystem::path & p){return p.extension() == ".jpg";}
+        ); // TODO: check against list of allowed extensions, ignore case
+        std::sort(filenames_images.begin(), filenames_images.end());
+        filenames_position = find(filenames_images.begin(), filenames_images.end(), path);
+        ptrdiff_t pos = std::distance(filenames_images.begin(), filenames_position);
+        SetStatusText(wxString::Format(wxT("%ld/%ld"),pos+1,filenames_images.size()), 1);
+
         Layout();
     } catch(std::exception & ex) {
         wxMessageBox(ex.what(), _("Unable to open image file"));

@@ -40,6 +40,9 @@ class hpicviewFrame: public GUIFrame
         std::time_t modification_date;
         std::string jpegdata;
         bool dirty;
+
+        std::vector<boost::filesystem::path> filenames_images;
+        std::vector<boost::filesystem::path>::iterator filenames_position;
 };
 
 #endif // HPICVIEWMAIN_H
