@@ -90,12 +90,13 @@ void hpicviewFrame::OnQuit(wxCommandEvent &event)
 void hpicviewFrame::OnAbout(wxCommandEvent &event)
 {
     wxString msg = wxbuildinfo(long_f);
+    msg += "\n\nContains icons by fontawesome.";
     wxMessageBox(msg, _("About hpicview"));
 }
 
 #include <wx/filedlg.h>
 
-void hpicviewFrame::OnFileOpen(wxCommandEvent& event) {
+void hpicviewFrame::OnOpen(wxCommandEvent& event) {
 	wxFileDialog openFileDialog(
         this, _("Open file"), "", "",
         "JPEG files|*.jpg;*.jpeg|"

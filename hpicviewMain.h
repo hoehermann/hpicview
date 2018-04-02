@@ -27,7 +27,7 @@ class hpicviewFrame: public GUIFrame
         virtual void OnClose(wxCloseEvent& event);
         virtual void OnQuit(wxCommandEvent& event);
         virtual void OnAbout(wxCommandEvent& event);
-        virtual void OnFileOpen(wxCommandEvent& event);
+        virtual void OnOpen(wxCommandEvent& event);
         virtual void OnRotateLeft(wxCommandEvent& event);
 		virtual void OnRotateRight(wxCommandEvent& event);
 

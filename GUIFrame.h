@@ -19,10 +19,11 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/statusbr.h>
+#include <wx/toolbar.h>
 #include <wx/statbmp.h>
 #include <wx/sizer.h>
 #include <wx/scrolwin.h>
+#include <wx/statusbr.h>
 #include <wx/frame.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -42,14 +43,19 @@ class GUIFrame : public wxFrame
 		wxMenu* menuFile;
 		wxMenu* m_menuImage;
 		wxMenu* menuHelp;
-		wxStatusBar* statusBar;
+		wxToolBar* toolBar;
+		wxToolBarToolBase* toolOpen; 
+		wxToolBarToolBase* toolRotateLeft; 
+		wxToolBarToolBase* toolRotateRight; 
+		wxToolBarToolBase* toolAbout; 
 		wxScrolledWindow* mainScrolledWindow;
 		wxStaticBitmap* m_bitmap;
+		wxStatusBar* statusBar;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnActivateApp( wxActivateEvent& event ) { event.Skip(); }
 		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
-		virtual void OnFileOpen( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnOpen( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnQuit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnRotateLeft( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnRotateRight( wxCommandEvent& event ) { event.Skip(); }
