@@ -1,0 +1,91 @@
+///////////////////////////////////////////////////////////////////////////
+// C++ code generated with wxFormBuilder (version Feb 16 2016)
+// http://www.wxformbuilder.org/
+//
+// PLEASE DO "NOT" EDIT THIS FILE!
+///////////////////////////////////////////////////////////////////////////
+
+#include "GUIFrame.h"
+
+///////////////////////////////////////////////////////////////////////////
+
+GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	menubar = new wxMenuBar( 0 );
+	menuFile = new wxMenu();
+	wxMenuItem* menuFileOpen;
+	menuFileOpen = new wxMenuItem( menuFile, wxID_ANY, wxString( wxT("&Open") ) + wxT('\t') + wxT("o"), wxEmptyString, wxITEM_NORMAL );
+	menuFile->Append( menuFileOpen );
+	
+	wxMenuItem* menuFileQuit;
+	menuFileQuit = new wxMenuItem( menuFile, idMenuQuit, wxString( wxT("&Quit") ) + wxT('\t') + wxT("Alt+F4"), wxT("Quit the application"), wxITEM_NORMAL );
+	menuFile->Append( menuFileQuit );
+	
+	menubar->Append( menuFile, wxT("&File") ); 
+	
+	m_menuImage = new wxMenu();
+	wxMenuItem* menuImageRotateLeft;
+	menuImageRotateLeft = new wxMenuItem( m_menuImage, wxID_ANY, wxString( wxT("Rotate Left") ) + wxT('\t') + wxT("l"), wxEmptyString, wxITEM_NORMAL );
+	m_menuImage->Append( menuImageRotateLeft );
+	
+	wxMenuItem* menuImageRotateRight;
+	menuImageRotateRight = new wxMenuItem( m_menuImage, wxID_ANY, wxString( wxT("Rotate Right") ) + wxT('\t') + wxT("r"), wxEmptyString, wxITEM_NORMAL );
+	m_menuImage->Append( menuImageRotateRight );
+	
+	menubar->Append( m_menuImage, wxT("Image") ); 
+	
+	menuHelp = new wxMenu();
+	wxMenuItem* menuHelpAbout;
+	menuHelpAbout = new wxMenuItem( menuHelp, idMenuAbout, wxString( wxT("&About") ) + wxT('\t') + wxT("F1"), wxT("Show info about this application"), wxITEM_NORMAL );
+	menuHelp->Append( menuHelpAbout );
+	
+	menubar->Append( menuHelp, wxT("&Help") ); 
+	
+	this->SetMenuBar( menubar );
+	
+	statusBar = this->CreateStatusBar( 2, wxST_SIZEGRIP, wxID_ANY );
+	wxBoxSizer* mainSizer;
+	mainSizer = new wxBoxSizer( wxVERTICAL );
+	
+	mainScrolledWindow = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	mainScrolledWindow->SetScrollRate( 5, 5 );
+	wxBoxSizer* mainScrolledWindowSizer;
+	mainScrolledWindowSizer = new wxBoxSizer( wxVERTICAL );
+	
+	m_bitmap = new wxStaticBitmap( mainScrolledWindow, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
+	mainScrolledWindowSizer->Add( m_bitmap, 1, wxALL, 5 );
+	
+	
+	mainScrolledWindow->SetSizer( mainScrolledWindowSizer );
+	mainScrolledWindow->Layout();
+	mainScrolledWindowSizer->Fit( mainScrolledWindow );
+	mainSizer->Add( mainScrolledWindow, 1, wxEXPAND | wxALL, 5 );
+	
+	
+	this->SetSizer( mainSizer );
+	this->Layout();
+	
+	// Connect Events
+	this->Connect( wxEVT_ACTIVATE_APP, wxActivateEventHandler( GUIFrame::OnActivateApp ) );
+	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( GUIFrame::OnClose ) );
+	this->Connect( menuFileOpen->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnFileOpen ) );
+	this->Connect( menuFileQuit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnQuit ) );
+	this->Connect( menuImageRotateLeft->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnRotateLeft ) );
+	this->Connect( menuImageRotateRight->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnRotateRight ) );
+	this->Connect( menuHelpAbout->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnAbout ) );
+}
+
+GUIFrame::~GUIFrame()
+{
+	// Disconnect Events
+	this->Disconnect( wxEVT_ACTIVATE_APP, wxActivateEventHandler( GUIFrame::OnActivateApp ) );
+	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( GUIFrame::OnClose ) );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnFileOpen ) );
+	this->Disconnect( idMenuQuit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnQuit ) );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnRotateLeft ) );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnRotateRight ) );
+	this->Disconnect( idMenuAbout, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnAbout ) );
+	
+}
