@@ -31,6 +31,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=c++11" />
 			<Add option="-Wall" />
 			<Add option="`wx-config --cflags`" />
 			<Add option="-x c++" />
@@ -40,6 +41,8 @@
 			<Add option="`wx-config --libs`" />
 			<Add option="`pkg-config --libs libjpeg`" />
 			<Add option="extern/libjpeg/transupp.o" />
+			<Add library="boost_system" />
+			<Add library="boost_filesystem" />
 			<Add directory="extern/libjpeg" />
 		</Linker>
 		<Unit filename="GUIFrame.cpp" />

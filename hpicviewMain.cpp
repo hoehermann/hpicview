@@ -7,13 +7,35 @@
  * License:
  **************************************************************/
 
+// TODO: open file from path given by command-line
+// TODO: folder navigation (with background scan)
 // TODO: enable global exceptions
 // TODO: regsiter accelerators without ctrl
+// TODO: transform thumbnail, too
 
 #include "hpicviewMain.h"
 #include <wx/msgdlg.h>
 
 //helper functions
+#include <fstream>
+#include <cerrno>
+
+std::string get_file_contents(const std::string & filename)
+{
+    /* from https://insanecoding.blogspot.de/2011/11/how-to-read-in-file-in-c.html */
+    std::ifstream in(filename, std::ios::in | std::ios::binary);
+    if (in) {
+        std::string contents;
+        in.seekg(0, std::ios::end);
+        contents.resize(in.tellg());
+        in.seekg(0, std::ios::beg);
+        in.read(&contents[0], contents.size());
+        in.close();
+        return(contents);
+    }
+    throw(errno);
+}
+
 enum wxbuildinfoformat {
     short_f, long_f };
 
@@ -43,7 +65,7 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 
 
 hpicviewFrame::hpicviewFrame(wxFrame *frame)
-    : GUIFrame(frame)
+    : GUIFrame(frame), dirty(false)
 {
 #if wxUSE_STATUSBAR
     statusBar->SetStatusText(_("Hello Code::Blocks user!"), 0);
@@ -87,8 +109,10 @@ void hpicviewFrame::OnFileOpen(wxCommandEvent& event) {
 
 void hpicviewFrame::OnRotateRight(wxCommandEvent& event) {
     try {
-        jpegdata = jpegtran.rotate_right(jpegdata);
+        jpegdata = JPEGtran::rotate_right(jpegdata);
+        dirty = true;
         SetJPEG(jpegdata);
+        WriteIfDirty(); // TODO: write on close / switch file / explicit request only
     } catch (std::exception & ex) {
         wxMessageBox(ex.what(), _("Unable to perform"));
     }
@@ -96,21 +120,51 @@ void hpicviewFrame::OnRotateRight(wxCommandEvent& event) {
 
 void hpicviewFrame::OnRotateLeft(wxCommandEvent& event) {
     try {
-        jpegdata = jpegtran.rotate_left(jpegdata);
+        jpegdata = JPEGtran::rotate_left(jpegdata);
+        dirty = true;
         SetJPEG(jpegdata);
+        WriteIfDirty(); // TODO: write on close / switch file / explicit request only
     } catch (std::exception & ex) {
         wxMessageBox(ex.what(), _("Unable to perform"));
     }
 }
 
-void hpicviewFrame::OpenFile(wxString filename) {
+void hpicviewFrame::OpenFile(const wxString & filename) {
     try {
-        jpegdata = get_file_contents(filename);
+        this->filename = "";
+        this->jpegdata = get_file_contents(std::string(filename));
         SetJPEG(jpegdata);
+        this->modification_date =
+            boost::filesystem::last_write_time(
+                boost::filesystem::path(filename)
+            );
+        this->filename = filename;
+        Layout();
     } catch(std::exception & ex) {
         wxMessageBox(ex.what(), _("Unable to open image file"));
     }
-    Layout();
+}
+
+void hpicviewFrame::WriteIfDirty() {
+    if (dirty) {
+        Write(this->filename);
+        boost::filesystem::last_write_time(
+            boost::filesystem::path(this->filename),
+            this->modification_date
+        );
+    }
+}
+
+#include <fstream>
+
+void hpicviewFrame::Write(const wxString & filename) {
+    if (!jpegdata.size()) {
+        throw std::runtime_error("Tried to write empty file. This should never happen.");
+    }
+    dirty = false;
+    auto f = std::fstream(filename, std::ios::out | std::ios::binary);
+    f.write(jpegdata.c_str(), jpegdata.size());
+    f.close();
 }
 
 #include <wx/mstream.h>
@@ -125,23 +179,4 @@ void hpicviewFrame::SetJPEG(const std::string & jpegdata) {
     jpegImage.LoadFile(jpegStream, wxBITMAP_TYPE_JPEG);
     wxBitmap b(jpegImage);
     m_bitmap->SetBitmap(b);
-}
-
-#include <fstream>
-#include <cerrno>
-
-std::string hpicviewFrame::get_file_contents(wxString filename)
-{
-    /* from https://insanecoding.blogspot.de/2011/11/how-to-read-in-file-in-c.html */
-    std::ifstream in(filename, std::ios::in | std::ios::binary);
-    if (in) {
-        std::string contents;
-        in.seekg(0, std::ios::end);
-        contents.resize(in.tellg());
-        in.seekg(0, std::ios::beg);
-        in.read(&contents[0], contents.size());
-        in.close();
-        return(contents);
-    }
-    throw(errno);
 }

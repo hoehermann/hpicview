@@ -15,12 +15,14 @@
 #include "jpegtran.h"
 #include <string>
 
+#include <boost/filesystem.hpp>
+
 class hpicviewFrame: public GUIFrame
 {
     public:
         hpicviewFrame(wxFrame *frame);
         ~hpicviewFrame();
-        void OpenFile(wxString filename); // only public for debugging reasons
+        void OpenFile(const wxString & filename); // only public for debugging reasons
     private:
         virtual void OnClose(wxCloseEvent& event);
         virtual void OnQuit(wxCommandEvent& event);
@@ -28,10 +30,16 @@ class hpicviewFrame: public GUIFrame
         virtual void OnFileOpen(wxCommandEvent& event);
         virtual void OnRotateLeft(wxCommandEvent& event);
 		virtual void OnRotateRight(wxCommandEvent& event);
-        JPEGtran jpegtran;
-        std::string jpegdata;
+
         void SetJPEG(const std::string & jpegdata);
-        static std::string get_file_contents(wxString filename);
+        void WriteIfDirty();
+        void Write(const wxString & filename);
+
+        // these represent the currently loaded image
+        wxString filename;
+        std::time_t modification_date;
+        std::string jpegdata;
+        bool dirty;
 };
 
 #endif // HPICVIEWMAIN_H
