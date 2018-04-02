@@ -87,7 +87,6 @@ void hpicviewFrame::OnFileOpen(wxCommandEvent& event) {
 
 void hpicviewFrame::OnRotateRight(wxCommandEvent& event) {
     try {
-        // TODO: check if image loaded at all
         jpegdata = jpegtran.rotate_right(jpegdata);
         SetJPEG(jpegdata);
     } catch (std::exception & ex) {
@@ -97,7 +96,6 @@ void hpicviewFrame::OnRotateRight(wxCommandEvent& event) {
 
 void hpicviewFrame::OnRotateLeft(wxCommandEvent& event) {
     try {
-        // TODO: check if image loaded at all
         jpegdata = jpegtran.rotate_left(jpegdata);
         SetJPEG(jpegdata);
     } catch (std::exception & ex) {
@@ -105,16 +103,9 @@ void hpicviewFrame::OnRotateLeft(wxCommandEvent& event) {
     }
 }
 
-//#include <boost/interprocess/file_mapping.hpp>
-//#include <boost/interprocess/mapped_region.hpp>
-
 void hpicviewFrame::OpenFile(wxString filename) {
     try {
         jpegdata = get_file_contents(filename);
-        //boost::interprocess::file_mapping m_file(filename, boost::interprocess::read_only);
-        //boost::interprocess::mapped_region region(m_file, boost::interprocess::read_only);
-        // keeping the file memory mapped is probably annoying as it locks the file on windows
-        //SetJPEG((unsigned char*)region.get_address(), region.get_size());
         SetJPEG(jpegdata);
     } catch(std::exception & ex) {
         wxMessageBox(ex.what(), _("Unable to open image file"));
@@ -139,19 +130,18 @@ void hpicviewFrame::SetJPEG(const std::string & jpegdata) {
 #include <fstream>
 #include <cerrno>
 
-/* from https://insanecoding.blogspot.de/2011/11/how-to-read-in-file-in-c.html */
 std::string hpicviewFrame::get_file_contents(wxString filename)
 {
-  std::ifstream in(filename, std::ios::in | std::ios::binary);
-  if (in)
-  {
-    std::string contents;
-    in.seekg(0, std::ios::end);
-    contents.resize(in.tellg());
-    in.seekg(0, std::ios::beg);
-    in.read(&contents[0], contents.size());
-    in.close();
-    return(contents);
-  }
-  throw(errno);
+    /* from https://insanecoding.blogspot.de/2011/11/how-to-read-in-file-in-c.html */
+    std::ifstream in(filename, std::ios::in | std::ios::binary);
+    if (in) {
+        std::string contents;
+        in.seekg(0, std::ios::end);
+        contents.resize(in.tellg());
+        in.seekg(0, std::ios::beg);
+        in.read(&contents[0], contents.size());
+        in.close();
+        return(contents);
+    }
+    throw(errno);
 }

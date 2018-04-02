@@ -1,12 +1,15 @@
 #include "jpegtran.h"
 
 #include <cdjpeg.h>
-extern "C" { // TODO: this looks hackish. how to do this properly? force g++ for all files?
+extern "C" { // TODO: this looks hackish. when building libjpeg, transupp.c is compiled with gcc. how to do this properly? force g++ for all files?
 #include <transupp.h>
 }
 #include <stdexcept>
 
 std::string transform(std::string input, JXFORM_CODE transform) {
+    if (!input.size()) {
+        throw std::runtime_error("No data given.");
+    }
     struct jpeg_decompress_struct srcinfo;
     struct jpeg_compress_struct dstinfo;
     struct jpeg_error_mgr jsrcerr, jdsterr;

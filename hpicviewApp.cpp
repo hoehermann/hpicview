@@ -29,7 +29,7 @@ bool hpicviewApp::OnInit()
 
     frame->Show();
 
-    frame->OpenFile(_("test_imperfect.jpg"));
+    //frame->OpenFile(_("test_imperfect.jpg"));
 
     return true;
 }
