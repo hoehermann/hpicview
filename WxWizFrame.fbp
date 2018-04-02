@@ -147,7 +147,7 @@
                         <property name="label">&amp;Open</property>
                         <property name="name">menuFileOpen</property>
                         <property name="permission">none</property>
-                        <property name="shortcut">o</property>
+                        <property name="shortcut">CTRL+O</property>
                         <property name="unchecked_bitmap"></property>
                         <event name="OnMenuSelection">OnFileOpen</event>
                         <event name="OnUpdateUI"></event>
@@ -169,7 +169,7 @@
                     </object>
                 </object>
                 <object class="wxMenu" expanded="1">
-                    <property name="label">Image</property>
+                    <property name="label">&amp;Image</property>
                     <property name="name">m_menuImage</property>
                     <property name="permission">protected</property>
                     <object class="wxMenuItem" expanded="1">
@@ -179,10 +179,10 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Rotate Left</property>
+                        <property name="label">Rotate &amp;Left</property>
                         <property name="name">menuImageRotateLeft</property>
                         <property name="permission">none</property>
-                        <property name="shortcut">l</property>
+                        <property name="shortcut">CTRL+L</property>
                         <property name="unchecked_bitmap"></property>
                         <event name="OnMenuSelection">OnRotateLeft</event>
                         <event name="OnUpdateUI"></event>
@@ -194,10 +194,10 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Rotate Right</property>
+                        <property name="label">Rotate &amp;Right</property>
                         <property name="name">menuImageRotateRight</property>
                         <property name="permission">none</property>
-                        <property name="shortcut">r</property>
+                        <property name="shortcut">CTRL+R</property>
                         <property name="unchecked_bitmap"></property>
                         <event name="OnMenuSelection">OnRotateRight</event>
                         <event name="OnUpdateUI"></event>

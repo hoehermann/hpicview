@@ -16,7 +16,7 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	menubar = new wxMenuBar( 0 );
 	menuFile = new wxMenu();
 	wxMenuItem* menuFileOpen;
-	menuFileOpen = new wxMenuItem( menuFile, wxID_ANY, wxString( wxT("&Open") ) + wxT('\t') + wxT("o"), wxEmptyString, wxITEM_NORMAL );
+	menuFileOpen = new wxMenuItem( menuFile, wxID_ANY, wxString( wxT("&Open") ) + wxT('\t') + wxT("CTRL+O"), wxEmptyString, wxITEM_NORMAL );
 	menuFile->Append( menuFileOpen );
 	
 	wxMenuItem* menuFileQuit;
@@ -27,14 +27,14 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	m_menuImage = new wxMenu();
 	wxMenuItem* menuImageRotateLeft;
-	menuImageRotateLeft = new wxMenuItem( m_menuImage, wxID_ANY, wxString( wxT("Rotate Left") ) + wxT('\t') + wxT("l"), wxEmptyString, wxITEM_NORMAL );
+	menuImageRotateLeft = new wxMenuItem( m_menuImage, wxID_ANY, wxString( wxT("Rotate &Left") ) + wxT('\t') + wxT("CTRL+L"), wxEmptyString, wxITEM_NORMAL );
 	m_menuImage->Append( menuImageRotateLeft );
 	
 	wxMenuItem* menuImageRotateRight;
-	menuImageRotateRight = new wxMenuItem( m_menuImage, wxID_ANY, wxString( wxT("Rotate Right") ) + wxT('\t') + wxT("r"), wxEmptyString, wxITEM_NORMAL );
+	menuImageRotateRight = new wxMenuItem( m_menuImage, wxID_ANY, wxString( wxT("Rotate &Right") ) + wxT('\t') + wxT("CTRL+R"), wxEmptyString, wxITEM_NORMAL );
 	m_menuImage->Append( menuImageRotateRight );
 	
-	menubar->Append( m_menuImage, wxT("Image") ); 
+	menubar->Append( m_menuImage, wxT("&Image") ); 
 	
 	menuHelp = new wxMenu();
 	wxMenuItem* menuHelpAbout;

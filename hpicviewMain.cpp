@@ -7,7 +7,8 @@
  * License:
  **************************************************************/
 
-// TODO: enable exceptions
+// TODO: enable global exceptions
+// TODO: regsiter accelerators without ctrl
 
 #include "hpicviewMain.h"
 #include <wx/msgdlg.h>
@@ -87,7 +88,8 @@ void hpicviewFrame::OnFileOpen(wxCommandEvent& event) {
 void hpicviewFrame::OnRotateRight(wxCommandEvent& event) {
     try {
         // TODO: check if image loaded at all
-        SetJPEG(jpegtran.rotate_right(jpegdata));
+        jpegdata = jpegtran.rotate_right(jpegdata);
+        SetJPEG(jpegdata);
     } catch (std::exception & ex) {
         wxMessageBox(ex.what(), _("Unable to perform"));
     }
@@ -96,7 +98,8 @@ void hpicviewFrame::OnRotateRight(wxCommandEvent& event) {
 void hpicviewFrame::OnRotateLeft(wxCommandEvent& event) {
     try {
         // TODO: check if image loaded at all
-        SetJPEG(jpegtran.rotate_left(jpegdata));
+        jpegdata = jpegtran.rotate_left(jpegdata);
+        SetJPEG(jpegdata);
     } catch (std::exception & ex) {
         wxMessageBox(ex.what(), _("Unable to perform"));
     }
@@ -122,10 +125,11 @@ void hpicviewFrame::OpenFile(wxString filename) {
 #include <wx/mstream.h>
 
 void hpicviewFrame::SetJPEG(const std::string & jpegdata) {
-    const unsigned char * buffer = (unsigned char *)jpegdata.c_str();
-    const unsigned long buffer_size = jpegdata.size();
     /* from https://forums.wxwidgets.org/viewtopic.php?t=18325 */
-    wxMemoryInputStream jpegStream(buffer, buffer_size);
+    wxMemoryInputStream jpegStream(
+        (unsigned char *)jpegdata.c_str(),
+        jpegdata.size()
+    );
     wxImage jpegImage;
     jpegImage.LoadFile(jpegStream, wxBITMAP_TYPE_JPEG);
     wxBitmap b(jpegImage);

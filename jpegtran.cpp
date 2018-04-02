@@ -6,13 +6,7 @@ extern "C" { // TODO: this looks hackish. how to do this properly? force g++ for
 }
 #include <stdexcept>
 
-JPEGtran::JPEGtran()
-{
-    //ctor
-}
-
-std::string JPEGtran::rotate(std::string input)
-{
+std::string transform(std::string input, JXFORM_CODE transform) {
     struct jpeg_decompress_struct srcinfo;
     struct jpeg_compress_struct dstinfo;
     struct jpeg_error_mgr jsrcerr, jdsterr;
@@ -44,7 +38,7 @@ std::string JPEGtran::rotate(std::string input)
     /* Read file header */
     (void) jpeg_read_header(&srcinfo, TRUE);
     /* from select_transform() */
-    transformoption.transform = JXFORM_ROT_90;
+    transformoption.transform = transform;
     if (!jtransform_request_workspace(&srcinfo, &transformoption)) {
         throw std::runtime_error("transformation is not perfect");
     }
@@ -84,7 +78,21 @@ std::string JPEGtran::rotate(std::string input)
     return output;
 }
 
-JPEGtran::~JPEGtran()
+JPEGtran::JPEGtran()
 {
+    //ctor
+}
+
+std::string JPEGtran::rotate_left(std::string input) {
+    return transform(input, JXFORM_ROT_270);
+}
+
+std::string JPEGtran::rotate_right(std::string input) {
+    return transform(input, JXFORM_ROT_90);
+
+}
+
+
+JPEGtran::~JPEGtran() {
     //dtor
 }

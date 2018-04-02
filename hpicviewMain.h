@@ -20,12 +20,13 @@ class hpicviewFrame: public GUIFrame
     public:
         hpicviewFrame(wxFrame *frame);
         ~hpicviewFrame();
-        void OpenFile(wxString filename);
+        void OpenFile(wxString filename); // only public for debugging reasons
     private:
         virtual void OnClose(wxCloseEvent& event);
         virtual void OnQuit(wxCommandEvent& event);
         virtual void OnAbout(wxCommandEvent& event);
         virtual void OnFileOpen(wxCommandEvent& event);
+        virtual void OnRotateLeft(wxCommandEvent& event);
 		virtual void OnRotateRight(wxCommandEvent& event);
         JPEGtran jpegtran;
         std::string jpegdata;
