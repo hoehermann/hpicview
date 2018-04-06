@@ -182,7 +182,7 @@
                         <property name="label">Rotate &amp;Left</property>
                         <property name="name">menuImageRotateLeft</property>
                         <property name="permission">none</property>
-                        <property name="shortcut">CTRL+L</property>
+                        <property name="shortcut">L</property>
                         <property name="unchecked_bitmap"></property>
                         <event name="OnMenuSelection">OnRotateLeft</event>
                         <event name="OnUpdateUI"></event>
@@ -197,7 +197,7 @@
                         <property name="label">Rotate &amp;Right</property>
                         <property name="name">menuImageRotateRight</property>
                         <property name="permission">none</property>
-                        <property name="shortcut">CTRL+R</property>
+                        <property name="shortcut">R</property>
                         <property name="unchecked_bitmap"></property>
                         <event name="OnMenuSelection">OnRotateRight</event>
                         <event name="OnUpdateUI"></event>
@@ -365,6 +365,51 @@
                     <event name="OnAuiToolBarToolDropDown"></event>
                     <event name="OnMenuSelection"></event>
                     <event name="OnToolClicked">OnRotateRight</event>
+                    <event name="OnToolEnter"></event>
+                    <event name="OnToolRClicked"></event>
+                    <event name="OnUpdateUI"></event>
+                </object>
+                <object class="toolSeparator" expanded="1">
+                    <property name="permission">protected</property>
+                </object>
+                <object class="tool" expanded="1">
+                    <property name="bitmap">Load From Embedded File; resources/arrow_left.svg.png</property>
+                    <property name="context_menu">0</property>
+                    <property name="id">wxID_ANY</property>
+                    <property name="kind">wxITEM_NORMAL</property>
+                    <property name="label">Previous</property>
+                    <property name="name">toolPrevious</property>
+                    <property name="permission">protected</property>
+                    <property name="statusbar"></property>
+                    <property name="tooltip"></property>
+                    <event name="OnAuiToolBarBeginDrag"></event>
+                    <event name="OnAuiToolBarMiddleClick"></event>
+                    <event name="OnAuiToolBarOverflowClick"></event>
+                    <event name="OnAuiToolBarRightClick"></event>
+                    <event name="OnAuiToolBarToolDropDown"></event>
+                    <event name="OnMenuSelection"></event>
+                    <event name="OnToolClicked">OnPrevious</event>
+                    <event name="OnToolEnter"></event>
+                    <event name="OnToolRClicked"></event>
+                    <event name="OnUpdateUI"></event>
+                </object>
+                <object class="tool" expanded="1">
+                    <property name="bitmap">Load From Embedded File; resources/arrow_right.svg.png</property>
+                    <property name="context_menu">0</property>
+                    <property name="id">wxID_ANY</property>
+                    <property name="kind">wxITEM_NORMAL</property>
+                    <property name="label">Next</property>
+                    <property name="name">toolNext</property>
+                    <property name="permission">protected</property>
+                    <property name="statusbar"></property>
+                    <property name="tooltip"></property>
+                    <event name="OnAuiToolBarBeginDrag"></event>
+                    <event name="OnAuiToolBarMiddleClick"></event>
+                    <event name="OnAuiToolBarOverflowClick"></event>
+                    <event name="OnAuiToolBarRightClick"></event>
+                    <event name="OnAuiToolBarToolDropDown"></event>
+                    <event name="OnMenuSelection"></event>
+                    <event name="OnToolClicked">OnNext</event>
                     <event name="OnToolEnter"></event>
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>

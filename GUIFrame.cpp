@@ -7,6 +7,8 @@
 
 #include "GUIFrame.h"
 
+#include "resources/arrow_left.svg.png.h"
+#include "resources/arrow_right.svg.png.h"
 #include "resources/folder_open.svg.png.h"
 #include "resources/question.svg.png.h"
 #include "resources/redo.svg.png.h"
@@ -32,11 +34,11 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	m_menuImage = new wxMenu();
 	wxMenuItem* menuImageRotateLeft;
-	menuImageRotateLeft = new wxMenuItem( m_menuImage, wxID_ANY, wxString( wxT("Rotate &Left") ) + wxT('\t') + wxT("CTRL+L"), wxEmptyString, wxITEM_NORMAL );
+	menuImageRotateLeft = new wxMenuItem( m_menuImage, wxID_ANY, wxString( wxT("Rotate &Left") ) + wxT('\t') + wxT("L"), wxEmptyString, wxITEM_NORMAL );
 	m_menuImage->Append( menuImageRotateLeft );
 	
 	wxMenuItem* menuImageRotateRight;
-	menuImageRotateRight = new wxMenuItem( m_menuImage, wxID_ANY, wxString( wxT("Rotate &Right") ) + wxT('\t') + wxT("CTRL+R"), wxEmptyString, wxITEM_NORMAL );
+	menuImageRotateRight = new wxMenuItem( m_menuImage, wxID_ANY, wxString( wxT("Rotate &Right") ) + wxT('\t') + wxT("R"), wxEmptyString, wxITEM_NORMAL );
 	m_menuImage->Append( menuImageRotateRight );
 	
 	menubar->Append( m_menuImage, wxT("&Image") ); 
@@ -58,6 +60,12 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	toolRotateLeft = toolBar->AddTool( wxID_ANY, wxT("Rotate &Left"), undo_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
 	
 	toolRotateRight = toolBar->AddTool( wxID_ANY, wxT("Rotate &Right"), redo_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
+	
+	toolBar->AddSeparator(); 
+	
+	toolPrevious = toolBar->AddTool( wxID_ANY, wxT("Previous"), arrow_left_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
+	
+	toolNext = toolBar->AddTool( wxID_ANY, wxT("Next"), arrow_right_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
 	
 	toolBar->AddSeparator(); 
 	
@@ -98,6 +106,8 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->Connect( toolOpen->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnOpen ) );
 	this->Connect( toolRotateLeft->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnRotateLeft ) );
 	this->Connect( toolRotateRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnRotateRight ) );
+	this->Connect( toolPrevious->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnPrevious ) );
+	this->Connect( toolNext->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnNext ) );
 	this->Connect( toolAbout->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnAbout ) );
 }
 
@@ -114,6 +124,8 @@ GUIFrame::~GUIFrame()
 	this->Disconnect( toolOpen->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnOpen ) );
 	this->Disconnect( toolRotateLeft->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnRotateLeft ) );
 	this->Disconnect( toolRotateRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnRotateRight ) );
+	this->Disconnect( toolPrevious->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnPrevious ) );
+	this->Disconnect( toolNext->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnNext ) );
 	this->Disconnect( toolAbout->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnAbout ) );
 	
 }

@@ -12,6 +12,7 @@
 // TODO: enable global exceptions
 // TODO: regsiter accelerators without ctrl
 // TODO: transform thumbnail, too
+// TODO: reset exif orientation flag after rotate
 
 #include "hpicviewMain.h"
 #include <wx/msgdlg.h>
@@ -104,7 +105,11 @@ void hpicviewFrame::OnOpen(wxCommandEvent& event) {
         wxFD_OPEN, wxDefaultPosition
     );
 	if (openFileDialog.ShowModal() == wxID_OK) {
-        OpenFile(openFileDialog.GetPath());
+        try {
+            OpenFile(openFileDialog.GetPath());
+        } catch(std::exception & ex) {
+            wxMessageBox(ex.what(), _("Unable to open image file"));
+        }
 	}
 }
 
@@ -130,46 +135,55 @@ void hpicviewFrame::OnRotateLeft(wxCommandEvent& event) {
     }
 }
 
+std::vector<boost::filesystem::path>::iterator
+hpicviewFrame::UpdateDirectoryListing(
+        const boost::filesystem::path & path
+) {
+    boost::filesystem::directory_iterator directory_iterator =
+        boost::filesystem::directory_iterator(path.parent_path());
+    filenames_images.clear();
+    std::copy_if(
+        directory_iterator, {},
+        std::back_inserter(filenames_images),
+        [](const boost::filesystem::path & p){return p.extension() == ".jpg";}
+    ); // TODO: check against /list/ of allowed extensions, ignore case
+    std::sort(filenames_images.begin(), filenames_images.end());
+    return find(filenames_images.begin(), filenames_images.end(), path);
+}
+
 void hpicviewFrame::OpenFile(const wxString & filename) {
-    try {
-        this->filename = "";
-        auto path = boost::filesystem::path(filename);
-        this->jpegdata = get_file_contents(std::string(filename));
-        SetJPEG(jpegdata);
-        this->modification_date =
-            boost::filesystem::last_write_time(path);
-        this->filename = filename;
+    this->filename = boost::filesystem::path();
+    this->jpegdata = get_file_contents(std::string(filename));
+    SetJPEG(jpegdata);
+    boost::filesystem::path path(filename);
+    this->modification_date =
+        boost::filesystem::last_write_time(path);
+    bool directory_has_changed = this->filename.parent_path() != path.parent_path();
+    this->filename = path;
 
-        boost::filesystem::directory_iterator directory_iterator =
-            boost::filesystem::directory_iterator(path.parent_path());
-        filenames_images.clear();
-        std::copy_if(
-            directory_iterator, {},
-            std::back_inserter(filenames_images),
-            [](const boost::filesystem::path & p){return p.extension() == ".jpg";}
-        ); // TODO: check against list of allowed extensions, ignore case
-        std::sort(filenames_images.begin(), filenames_images.end());
-        filenames_position = find(filenames_images.begin(), filenames_images.end(), path);
-        ptrdiff_t pos = std::distance(filenames_images.begin(), filenames_position);
-        SetStatusText(wxString::Format(wxT("%ld/%ld"),pos+1,filenames_images.size()), 1);
-
-        Layout();
-    } catch(std::exception & ex) {
-        wxMessageBox(ex.what(), _("Unable to open image file"));
+    SetTitle(wxString::Format(wxT("hpicview - %s"),path.filename().c_str()));
+    if (directory_has_changed) {
+        std::vector<boost::filesystem::path>::iterator p = UpdateDirectoryListing(path);
+        SetPosition(p);
     }
+    Layout();
+}
+
+void hpicviewFrame::SetPosition(const std::vector<boost::filesystem::path>::iterator & p) {
+    this->filenames_position = p;
+    ptrdiff_t pos = std::distance(filenames_images.begin(), filenames_position);
+    SetStatusText(wxString::Format(wxT("%ld/%ld"),pos+1,filenames_images.size()), 1);
 }
 
 void hpicviewFrame::WriteIfDirty() {
     if (dirty) {
-        Write(this->filename);
+        Write(wxString(this->filename.c_str()));
         boost::filesystem::last_write_time(
             boost::filesystem::path(this->filename),
             this->modification_date
         );
     }
 }
-
-#include <fstream>
 
 void hpicviewFrame::Write(const wxString & filename) {
     if (!jpegdata.size()) {
@@ -193,4 +207,24 @@ void hpicviewFrame::SetJPEG(const std::string & jpegdata) {
     jpegImage.LoadFile(jpegStream, wxBITMAP_TYPE_JPEG);
     wxBitmap b(jpegImage);
     m_bitmap->SetBitmap(b);
+}
+
+void hpicviewFrame::OnPrevious(wxCommandEvent& event) {
+    if (!filenames_images.empty()) {
+        auto it = std::prev(filenames_position);
+        if (it != filenames_images.begin()-1) {
+            OpenFile(wxString(it->c_str()));
+            SetPosition(it);
+        }
+    }
+}
+
+void hpicviewFrame::OnNext(wxCommandEvent& event) {
+    if (!filenames_images.empty()) {
+        auto it = std::next(filenames_position);
+        if (it != filenames_images.end()) {
+            OpenFile(wxString(it->c_str()));
+            SetPosition(it);
+        }
+    }
 }

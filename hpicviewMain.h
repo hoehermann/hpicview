@@ -30,13 +30,17 @@ class hpicviewFrame: public GUIFrame
         virtual void OnOpen(wxCommandEvent& event);
         virtual void OnRotateLeft(wxCommandEvent& event);
 		virtual void OnRotateRight(wxCommandEvent& event);
+        virtual void OnPrevious(wxCommandEvent& event);
+		virtual void OnNext(wxCommandEvent& event);
 
         void SetJPEG(const std::string & jpegdata);
         void WriteIfDirty();
-        void Write(const wxString & filename);
+        void Write(const wxString & filename); // TODO: switch to boost::filesystem::path
+        void SetPosition(const std::vector<boost::filesystem::path>::iterator & p);
+        std::vector<boost::filesystem::path>::iterator UpdateDirectoryListing(const boost::filesystem::path & path);
 
         // these represent the currently loaded image
-        wxString filename;
+        boost::filesystem::path filename;
         std::time_t modification_date;
         std::string jpegdata;
         bool dirty;
