@@ -78,17 +78,17 @@ hpicviewFrame::~hpicviewFrame()
 {
 }
 
-void hpicviewFrame::OnClose(wxCloseEvent &event)
+void hpicviewFrame::OnClose(wxCloseEvent&)
 {
     Destroy();
 }
 
-void hpicviewFrame::OnQuit(wxCommandEvent &event)
+void hpicviewFrame::OnQuit(wxCommandEvent&)
 {
     Destroy();
 }
 
-void hpicviewFrame::OnAbout(wxCommandEvent &event)
+void hpicviewFrame::OnAbout(wxCommandEvent&)
 {
     wxString msg = wxbuildinfo(long_f);
     msg += "\n\nContains icons by fontawesome.";
@@ -97,7 +97,7 @@ void hpicviewFrame::OnAbout(wxCommandEvent &event)
 
 #include <wx/filedlg.h>
 
-void hpicviewFrame::OnOpen(wxCommandEvent& event) {
+void hpicviewFrame::OnOpen(wxCommandEvent&) {
 	wxFileDialog openFileDialog(
         this, _("Open file"), "", "",
         "JPEG files|*.jpg;*.jpeg|"
@@ -113,7 +113,7 @@ void hpicviewFrame::OnOpen(wxCommandEvent& event) {
 	}
 }
 
-void hpicviewFrame::OnRotateRight(wxCommandEvent& event) {
+void hpicviewFrame::OnRotateRight(wxCommandEvent&) {
     try {
         jpegdata = JPEGtran::rotate_right(jpegdata);
         dirty = true;
@@ -124,7 +124,7 @@ void hpicviewFrame::OnRotateRight(wxCommandEvent& event) {
     }
 }
 
-void hpicviewFrame::OnRotateLeft(wxCommandEvent& event) {
+void hpicviewFrame::OnRotateLeft(wxCommandEvent&) {
     try {
         jpegdata = JPEGtran::rotate_left(jpegdata);
         dirty = true;
@@ -209,7 +209,7 @@ void hpicviewFrame::SetJPEG(const std::string & jpegdata) {
     m_bitmap->SetBitmap(b);
 }
 
-void hpicviewFrame::OnPrevious(wxCommandEvent& event) {
+void hpicviewFrame::OnPrevious(wxCommandEvent&) {
     if (!filenames_images.empty()) {
         auto it = std::prev(filenames_position);
         if (it != filenames_images.begin()-1) {
@@ -219,7 +219,7 @@ void hpicviewFrame::OnPrevious(wxCommandEvent& event) {
     }
 }
 
-void hpicviewFrame::OnNext(wxCommandEvent& event) {
+void hpicviewFrame::OnNext(wxCommandEvent&) {
     if (!filenames_images.empty()) {
         auto it = std::next(filenames_position);
         if (it != filenames_images.end()) {
