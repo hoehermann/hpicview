@@ -5,8 +5,13 @@ HEDS = $(shell find . -type f -name '*.hpp')
 OBJS = $(SRCS:%.cpp=%.o)
 PROG = hpicview
 
-CPPFLAGS += `wx-config --cppflags` -Iextern/libjpeg
-LIBS += `wx-config --libs` -Lextern/libjpeg extern/libjpeg/transupp.o -ljpeg -lboost_system -lboost_filesystem
+CPPFLAGS += -DVERSION=\"`git describe --abbrev=7 --dirty --always --tags`\"
+CPPFLAGS += `wx-config --cppflags`
+CPPFLAGS += -Iextern/libjpeg
+LIBS += `wx-config --libs`
+LIBS +=  extern/libjpeg/transupp.o
+LIBS += -Lextern/libjpeg -ljpeg 
+LIBS += -lboost_system -lboost_filesystem
 
 all: $(PROG)
 

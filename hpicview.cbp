@@ -35,6 +35,7 @@
 			<Add option="-Wall" />
 			<Add option="`wx-config --cflags`" />
 			<Add option="-x c++" />
+			<Add option='-DVERSION=\\&quot;`git describe --abbrev=7 --dirty --always --tags`\\&quot;' />
 			<Add directory="extern/libjpeg" />
 		</Compiler>
 		<Linker>

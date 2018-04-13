@@ -7,12 +7,11 @@
  * License:
  **************************************************************/
 
-// TODO: regsiter accelerators without ctrl
+// TODO: try to open all images (get all available image handlers, query their extensions; check against /list/ of allowed extensions, ignore case in directory iterator; offer rotation only for JPEG)
+// TODO: reset exif orientation flag after rotate
+// TODO: transform thumbnail, too
 // TODO: enable global exceptions
 // TODO: scan folder in background
-// TODO: transform thumbnail, too
-// TODO: reset exif orientation flag after rotate
-// TODO: try to open all images
 
 #include "hpicviewMain.h"
 #include <wx/msgdlg.h>
@@ -87,8 +86,10 @@ void hpicviewFrame::OnQuit(wxCommandEvent&)
 
 void hpicviewFrame::OnAbout(wxCommandEvent&)
 {
-    wxString msg = wxbuildinfo(long_f);
-    msg += "\n\nContains icons by fontawesome.";
+    wxString msg;
+    msg << "hpicview Version " << VERSION << "\n\n";
+    msg << "Built with " << wxbuildinfo(long_f) << "\n\n";
+    msg << "Contains icons by fontawesome.";
     wxMessageBox(msg, _("About hpicview"));
 }
 
@@ -143,7 +144,7 @@ hpicviewFrame::UpdateDirectoryListing(
         directory_iterator, {},
         std::back_inserter(filenames_images),
         [](const boost::filesystem::path & p){return p.extension() == ".jpg";}
-    ); // TODO: check against /list/ of allowed extensions, ignore case
+    );
     std::sort(filenames_images.begin(), filenames_images.end());
     return find(filenames_images.begin(), filenames_images.end(), path);
 }
