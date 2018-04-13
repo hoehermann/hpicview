@@ -1,3 +1,8 @@
 resources/*.svg.png
-*.depend
+.depend
 *.layout
+*.user
+build/
+extern/
+hpicview
+*.o
