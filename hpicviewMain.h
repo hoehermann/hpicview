@@ -22,16 +22,17 @@ class hpicviewFrame: public GUIFrame
     public:
         hpicviewFrame(wxFrame *frame);
         ~hpicviewFrame();
-        void OpenFile(const wxString & filename); // only public for debugging reasons
+        void OpenFile(const wxString & filename);
+        // TODO: introduce separate methods not being handlers?
+        virtual void OnPrevious(wxCommandEvent& event);
+        virtual void OnNext(wxCommandEvent& event);
+        virtual void OnQuit(wxCommandEvent& event);
+        virtual void OnRotateLeft(wxCommandEvent& event);
+        virtual void OnRotateRight(wxCommandEvent& event);
     private:
         virtual void OnClose(wxCloseEvent& event);
-        virtual void OnQuit(wxCommandEvent& event);
         virtual void OnAbout(wxCommandEvent& event);
         virtual void OnOpen(wxCommandEvent& event);
-        virtual void OnRotateLeft(wxCommandEvent& event);
-		virtual void OnRotateRight(wxCommandEvent& event);
-        virtual void OnPrevious(wxCommandEvent& event);
-		virtual void OnNext(wxCommandEvent& event);
 
         void SetJPEG(const std::string & jpegdata);
         void WriteIfDirty();

@@ -12,10 +12,16 @@
 
 #include <wx/app.h>
 
+class hpicviewFrame;
+
 class hpicviewApp : public wxApp
 {
     public:
         virtual bool OnInit();
+        virtual int OnExit();
+    private:
+        virtual void OnCharHook(wxKeyEvent& event);
+        hpicviewFrame* frame;
 };
 
 #endif // HPICVIEWAPP_H
