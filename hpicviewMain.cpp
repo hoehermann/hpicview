@@ -67,10 +67,8 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 hpicviewFrame::hpicviewFrame(wxFrame *frame)
     : GUIFrame(frame), dirty(false)
 {
-#if wxUSE_STATUSBAR
-    statusBar->SetStatusText(_("Hello Code::Blocks user!"), 0);
-    statusBar->SetStatusText(wxbuildinfo(short_f), 1);
-#endif
+    SetStatusText(_("No image."), 0);
+    SetStatusText(wxbuildinfo(short_f), 1);
 }
 
 hpicviewFrame::~hpicviewFrame()
@@ -109,7 +107,7 @@ void hpicviewFrame::OnOpen(wxCommandEvent&) {
         } catch(std::exception & ex) {
             wxMessageBox(ex.what(), _("Unable to open image file"));
         }
-	}
+    }
 }
 
 void hpicviewFrame::OnRotateRight(wxCommandEvent&) {
@@ -151,16 +149,17 @@ hpicviewFrame::UpdateDirectoryListing(
 }
 
 void hpicviewFrame::OpenFile(const wxString & filename) {
-    this->filename = boost::filesystem::path();
     this->jpegdata = get_file_contents(std::string(filename));
     SetJPEG(jpegdata);
     boost::filesystem::path path(filename);
+    path = boost::filesystem::canonical(path);
     this->modification_date =
         boost::filesystem::last_write_time(path);
-    bool directory_has_changed = this->filename.parent_path() != path.parent_path();
+    bool directory_has_changed = this->filename.empty() || this->filename.parent_path() != path.parent_path();
     this->filename = path;
 
     SetTitle(wxString::Format(wxT("hpicview - %s"),path.filename().c_str()));
+    SetStatusText(wxString::Format(wxT("Loaded %s."),path.filename().c_str()),0);
     if (directory_has_changed) {
         std::vector<boost::filesystem::path>::iterator p = UpdateDirectoryListing(path);
         SetPosition(p);
