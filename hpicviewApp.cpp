@@ -7,16 +7,7 @@
  * License:
  **************************************************************/
 
-#ifdef WX_PRECOMP
-#include "wx_pch.h"
-#endif
-
-#ifdef __BORLANDC__
-#pragma hdrstop
-#endif //__BORLANDC__
-
 #include "hpicviewApp.h"
-#include "hpicviewMain.h"
 
 IMPLEMENT_APP(hpicviewApp);
 
@@ -25,14 +16,14 @@ bool hpicviewApp::OnInit() {
     wxInitAllImageHandlers();
 
     this->frame = new hpicviewFrame(0L);
-    
+
     // TODO: use wxCmdLineParser, treat first positional argument as filename
     if (this->argc == 2) {
         this->frame->OpenFile(this->argv[1]);
     }
 
     this->frame->Show();
-    
+
     Bind(wxEVT_CHAR_HOOK, &hpicviewApp::OnCharHook, this);
 
     return true;

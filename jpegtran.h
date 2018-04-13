@@ -1,6 +1,8 @@
 /**
- * This is the rotation functionality taken from libjpeg's jpegtran.c.
+ * This provides the rotation functionality taken from libjpeg's jpegtran.c.
  */
+
+#pragma once
 
 #include <string>
 
@@ -12,5 +14,5 @@ class JPEGtran
         static std::string rotate_right(std::string input);
     protected:
     private:
-    JPEGtran();
+        JPEGtran();
 };

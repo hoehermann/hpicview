@@ -7,10 +7,8 @@
  * License:
  **************************************************************/
 
-#ifndef HPICVIEWMAIN_H
-#define HPICVIEWMAIN_H
+#pragma once
 
-#include "hpicviewApp.h"
 #include "GUIFrame.h"
 #include "jpegtran.h"
 #include <string>
@@ -49,5 +47,3 @@ class hpicviewFrame: public GUIFrame
         std::vector<boost::filesystem::path> filenames_images;
         std::vector<boost::filesystem::path>::iterator filenames_position;
 };
-
-#endif // HPICVIEWMAIN_H

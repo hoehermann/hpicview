@@ -7,12 +7,11 @@
  * License:
  **************************************************************/
 
-#ifndef HPICVIEWAPP_H
-#define HPICVIEWAPP_H
+#pragma once
 
 #include <wx/app.h>
 
-class hpicviewFrame;
+#include "hpicviewMain.h"
 
 class hpicviewApp : public wxApp
 {
@@ -23,5 +22,3 @@ class hpicviewApp : public wxApp
         virtual void OnCharHook(wxKeyEvent& event);
         hpicviewFrame* frame;
 };
-
-#endif // HPICVIEWAPP_H
