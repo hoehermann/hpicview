@@ -28,8 +28,11 @@ bool hpicviewApp::OnInit()
     hpicviewFrame* frame = new hpicviewFrame(0L);
 
     frame->Show();
-
-    //frame->OpenFile(_("test_imperfect.jpg"));
+    
+    // TODO: use wxCmdLineParser, treat first positional argument as filename
+    if (this->argc == 2) {
+        frame->OpenFile(this->argv[1]);
+    }
 
     return true;
 }

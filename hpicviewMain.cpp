@@ -7,17 +7,16 @@
  * License:
  **************************************************************/
 
-// TODO: open file from path given by command-line
-// TODO: folder navigation (with background scan)
-// TODO: enable global exceptions
 // TODO: regsiter accelerators without ctrl
+// TODO: enable global exceptions
+// TODO: scan folder in background
 // TODO: transform thumbnail, too
 // TODO: reset exif orientation flag after rotate
+// TODO: try to open all images
 
 #include "hpicviewMain.h"
 #include <wx/msgdlg.h>
 
-//helper functions
 #include <fstream>
 #include <cerrno>
 
