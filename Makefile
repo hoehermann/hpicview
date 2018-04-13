@@ -10,7 +10,13 @@ LIBS += `wx-config --libs` -Lextern/libjpeg extern/libjpeg/transupp.o -ljpeg -lb
 
 all: $(PROG)
 
-.PHONY: clean all
+.PHONY: clean all run test
+
+run: $(PROG)
+	./$(PROG)
+	
+try: $(PROG)
+	./$(PROG) test_xga.jpg
 
 $(PROG): .depend $(OBJS)
 	$(CC) $(CPPFLAGS) -o $(PROG) $(OBJS) $(LIBS)
