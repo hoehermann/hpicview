@@ -38,8 +38,15 @@ std::string get_file_contents(const std::string & filename)
     throw(errno);
 }
 
+enum statusbar_columns {
+    STATUSBAR_COLUMN_MAIN = 0,
+    STATUSBAR_COLUMN_ZOOM = 1,
+    STATUSBAR_COLUMN_INDEX = 2
+};
+
 enum wxbuildinfoformat {
-    short_f, long_f };
+    short_f, long_f
+};
 
 wxString wxbuildinfo(wxbuildinfoformat format)
 {
@@ -84,10 +91,10 @@ std::set<wxString> GetImageExts()
 
 
 hpicviewFrame::hpicviewFrame(wxFrame *frame)
-    : GUIFrame(frame), dirty(false), image_extensions(GetImageExts())
+    : GUIFrame(frame), m_dirty(false), m_image_extensions(GetImageExts())
 {
-    SetStatusText(_("No image."), 0);
-    SetStatusText(wxbuildinfo(short_f), 1);
+    SetStatusText(_("No image."), STATUSBAR_COLUMN_MAIN);
+    SetStatusText(wxbuildinfo(short_f), STATUSBAR_COLUMN_INDEX);
 }
 
 hpicviewFrame::~hpicviewFrame()
@@ -127,7 +134,7 @@ void hpicviewFrame::OnAbout(wxCommandEvent&)
     msg << "hpicview Version " << VERSION << "\n\n";
     msg << "Built with " << wxbuildinfo(long_f) << "\n\n";
     msg << "Contains icons by fontawesome.\n\n";
-    msg << "Built-in image format extensions:\n" << GetImageExtWildcard(image_extensions);
+    msg << "Built-in image format extensions:\n" << GetImageExtWildcard(m_image_extensions);
     wxMessageBox(msg, _("About hpicview"));
 }
 
@@ -135,7 +142,7 @@ void hpicviewFrame::OnAbout(wxCommandEvent&)
 
 void hpicviewFrame::OnOpen(wxCommandEvent&) {
     wxString exts("All built-in image files|");
-    exts << GetImageExtWildcard(image_extensions);
+    exts << GetImageExtWildcard(m_image_extensions);
     exts << "|";
 
 	wxFileDialog openFileDialog(
@@ -156,14 +163,49 @@ void hpicviewFrame::OnOpen(wxCommandEvent&) {
     }
 }
 
+#include <cmath>
+
+void hpicviewFrame::ScaleImage(int view_zoom_exponent) {
+    this->m_view_zoom_exponent = view_zoom_exponent;
+    int width = m_image.GetWidth();
+    int height = m_image.GetHeight();
+    width = int(float(width)*std::pow(2, m_view_zoom_exponent));
+    height = int(float(height)*std::pow(2, m_view_zoom_exponent));
+    int zoom_percent = int(100.0f*std::pow(2, m_view_zoom_exponent));
+    //std::cerr << m_view_zoom_exponent << " " << width << " " << height << std::endl;
+    if (width <= 0 || height <= 0) {
+        throw std::runtime_error("Cannot scale any smaller.");
+    }
+    wxImage scaledImage = m_image.Scale(width, height, wxIMAGE_QUALITY_NEAREST);
+    this->m_bitmap->SetBitmap(wxBitmap(scaledImage));
+    SetStatusText(wxString::Format(wxT("%d%%"),zoom_percent), STATUSBAR_COLUMN_ZOOM);
+    Layout();
+}
+
+void hpicviewFrame::OnZoomOut(wxCommandEvent&) {
+    try {
+        ScaleImage(this->m_view_zoom_exponent-1);
+    } catch(std::exception & ex) {
+        wxMessageBox(ex.what(), _("Unable to perform"));
+    }
+}
+
+void hpicviewFrame::OnZoomIn(wxCommandEvent&) {
+    try {
+        ScaleImage(this->m_view_zoom_exponent+1);
+    } catch(std::exception & ex) {
+        wxMessageBox(ex.what(), _("Unable to perform"));
+    }
+}
+
 void hpicviewFrame::OnRotateRight(wxCommandEvent&) {
     try {
         if (m_image.GetType() !=  wxBITMAP_TYPE_JPEG) {
             throw std::runtime_error("No JPEG loaded.");
         }
-        imagedata = JPEGtran::rotate_right(imagedata);
-        dirty = true;
-        SetImageData(imagedata);
+        m_imagedata = JPEGtran::rotate_right(m_imagedata);
+        m_dirty = true;
+        SetImageData(m_imagedata);
         WriteIfDirty(); // TODO: write on close / switch file / explicit request only
     } catch (std::exception & ex) {
         wxMessageBox(ex.what(), _("Unable to perform"));
@@ -175,9 +217,9 @@ void hpicviewFrame::OnRotateLeft(wxCommandEvent&) {
         if (m_image.GetType() !=  wxBITMAP_TYPE_JPEG) {
             throw std::runtime_error("No JPEG loaded.");
         }
-        imagedata = JPEGtran::rotate_left(imagedata);
-        dirty = true;
-        SetImageData(imagedata);
+        m_imagedata = JPEGtran::rotate_left(m_imagedata);
+        m_dirty = true;
+        SetImageData(m_imagedata);
         WriteIfDirty(); // TODO: write on close / switch file / explicit request only
     } catch (std::exception & ex) {
         wxMessageBox(ex.what(), _("Unable to perform"));
@@ -195,7 +237,7 @@ hpicviewFrame::UpdateDirectoryListing(
         directory_iterator, {},
         std::back_inserter(filenames_images),
         [this](const boost::filesystem::path & p){
-            return this->image_extensions.count(wxString(p.extension().c_str()).Lower());
+            return this->m_image_extensions.count(wxString(p.extension().c_str()).Lower());
         }
     );
     std::sort(filenames_images.begin(), filenames_images.end());
@@ -203,47 +245,49 @@ hpicviewFrame::UpdateDirectoryListing(
 }
 
 void hpicviewFrame::OpenFile(const wxString & filename) {
-    this->imagedata = get_file_contents(std::string(filename));
-    SetImageData(imagedata);
+    this->m_imagedata = get_file_contents(std::string(filename));
+    SetImageData(m_imagedata);
     boost::filesystem::path path(filename);
     path = boost::filesystem::canonical(path);
-    this->modification_date =
+    this->m_modification_date =
         boost::filesystem::last_write_time(path);
-    bool directory_has_changed = this->filename.empty() || this->filename.parent_path() != path.parent_path();
-    this->filename = path;
+    bool directory_has_changed = this->m_filename.empty() || this->m_filename.parent_path() != path.parent_path();
+    this->m_filename = path;
 
     SetTitle(wxString::Format(wxT("hpicview - %s"),path.filename().c_str()));
-    SetStatusText(wxString::Format(wxT("Loaded %s."),path.filename().c_str()),0);
+    SetStatusText(wxString::Format(wxT("Loaded %s."),path.filename().c_str()), STATUSBAR_COLUMN_MAIN);
     if (directory_has_changed) {
         std::vector<boost::filesystem::path>::iterator p = UpdateDirectoryListing(path);
         SetPosition(p);
     }
+
+    this->m_view_zoom_exponent = 0;
     Layout();
 }
 
 void hpicviewFrame::SetPosition(const std::vector<boost::filesystem::path>::iterator & p) {
     this->filenames_position = p;
     ptrdiff_t pos = std::distance(filenames_images.begin(), filenames_position);
-    SetStatusText(wxString::Format(wxT("%ld/%ld"),pos+1,filenames_images.size()), 1);
+    SetStatusText(wxString::Format(wxT("%ld/%ld"),pos+1,filenames_images.size()), STATUSBAR_COLUMN_INDEX);
 }
 
 void hpicviewFrame::WriteIfDirty() {
-    if (dirty) {
-        Write(wxString(this->filename.c_str()));
+    if (m_dirty) {
+        Write(wxString(this->m_filename.c_str()));
         boost::filesystem::last_write_time(
-            boost::filesystem::path(this->filename),
-            this->modification_date
+            boost::filesystem::path(this->m_filename),
+            this->m_modification_date
         );
     }
 }
 
 void hpicviewFrame::Write(const wxString & filename) {
-    if (imagedata.empty()) {
+    if (this->m_imagedata.empty()) {
         throw std::runtime_error("Tried to write empty file. This should never happen.");
     }
-    dirty = false;
+    this->m_dirty = false;
     auto f = std::fstream(filename, std::ios::out | std::ios::binary);
-    f.write(imagedata.c_str(), imagedata.size());
+    f.write(this->m_imagedata.c_str(), this->m_imagedata.size());
     f.close();
 }
 

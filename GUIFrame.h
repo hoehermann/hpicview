@@ -47,6 +47,8 @@ class GUIFrame : public wxFrame
 		wxToolBarToolBase* toolOpen; 
 		wxToolBarToolBase* toolRotateLeft; 
 		wxToolBarToolBase* toolRotateRight; 
+		wxToolBarToolBase* toolZoomIn; 
+		wxToolBarToolBase* toolZoomOut; 
 		wxToolBarToolBase* toolPrevious; 
 		wxToolBarToolBase* toolNext; 
 		wxToolBarToolBase* toolAbout; 
@@ -62,6 +64,8 @@ class GUIFrame : public wxFrame
 		virtual void OnRotateLeft( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnRotateRight( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAbout( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnZoomIn( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnZoomOut( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnPrevious( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnNext( wxCommandEvent& event ) { event.Skip(); }
 		

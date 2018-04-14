@@ -28,6 +28,8 @@ class hpicviewFrame: public GUIFrame
         virtual void OnQuit(wxCommandEvent& event);
         virtual void OnRotateLeft(wxCommandEvent& event);
         virtual void OnRotateRight(wxCommandEvent& event);
+        virtual void OnZoomOut(wxCommandEvent& event);
+        virtual void OnZoomIn(wxCommandEvent& event);
     private:
         virtual void OnClose(wxCloseEvent& event);
         virtual void OnAbout(wxCommandEvent& event);
@@ -36,20 +38,24 @@ class hpicviewFrame: public GUIFrame
         void SetImageData(const std::string & imagedata);
         void WriteIfDirty();
         void Write(const wxString & filename); // TODO: switch to boost::filesystem::path
+        void ScaleImage(int view_zoom_exponent);
         void SetPosition(const std::vector<boost::filesystem::path>::iterator & p);
         std::vector<boost::filesystem::path>::iterator UpdateDirectoryListing(const boost::filesystem::path & path);
 
         // these represent the currently loaded image
-        boost::filesystem::path filename;
-        std::time_t modification_date;
-        std::string imagedata;
+        boost::filesystem::path m_filename;
+        std::time_t m_modification_date;
+        std::string m_imagedata;
         wxImage m_image;
-        bool dirty;
+        bool m_dirty;
 
         // for walking the directory
         std::vector<boost::filesystem::path> filenames_images;
         std::vector<boost::filesystem::path>::iterator filenames_position;
 
         // configuration
-        std::set<wxString> image_extensions;
+        std::set<wxString> m_image_extensions;
+
+        // view
+        int m_view_zoom_exponent = 0;
 };
