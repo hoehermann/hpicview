@@ -39,8 +39,7 @@ class hpicviewFrame: public GUIFrame
         void WriteIfDirty();
         void Write(const wxString & filename); // TODO: switch to boost::filesystem::path
         void ScaleImage(int view_zoom_exponent);
-        void SetPosition(const std::vector<boost::filesystem::path>::iterator & p);
-        std::vector<boost::filesystem::path>::iterator UpdateDirectoryListing(const boost::filesystem::path & path);
+        void SetViewZoomExponent(int view_zoom_exponent);
 
         // these represent the currently loaded image
         boost::filesystem::path m_filename;
@@ -50,6 +49,8 @@ class hpicviewFrame: public GUIFrame
         bool m_dirty;
 
         // for walking the directory
+        std::vector<boost::filesystem::path>::iterator UpdateDirectoryListing(const boost::filesystem::path & path);
+        void SetFileIndex(const std::vector<boost::filesystem::path>::iterator & p);
         std::vector<boost::filesystem::path> filenames_images;
         std::vector<boost::filesystem::path>::iterator filenames_position;
 
@@ -58,4 +59,10 @@ class hpicviewFrame: public GUIFrame
 
         // view
         int m_view_zoom_exponent = 0;
+
+        enum statusbar_columns {
+            STATUSBAR_COLUMN_MAIN = 0,
+            STATUSBAR_COLUMN_ZOOM = 1,
+            STATUSBAR_COLUMN_INDEX = 2
+        };
 };

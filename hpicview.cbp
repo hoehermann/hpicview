@@ -49,6 +49,7 @@
 		<Unit filename="GUIFrame.cpp" />
 		<Unit filename="GUIFrame.h" />
 		<Unit filename="WxWizFrame.fbp" />
+		<Unit filename="directory_iteration.cpp" />
 		<Unit filename="flatmain.cpp">
 			<Option compile="0" />
 			<Option link="0" />
@@ -59,6 +60,8 @@
 		<Unit filename="hpicviewMain.h" />
 		<Unit filename="jpegtran.cpp" />
 		<Unit filename="jpegtran.h" />
+		<Unit filename="rotate.cpp" />
+		<Unit filename="zoom.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
