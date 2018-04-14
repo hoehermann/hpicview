@@ -34,6 +34,8 @@ int hpicviewApp::OnExit() {
     return 0;
 }
 
+//#include <iostream>
+
 /* from http://blog.pcitron.fr/2012/09/11/application-wide-shortcuts-with-wxwidgets-on-windows/ */
 void hpicviewApp::OnCharHook(wxKeyEvent& event) {
     if (event.ControlDown()) {
@@ -51,14 +53,26 @@ void hpicviewApp::OnCharHook(wxKeyEvent& event) {
             case WXK_LEFT:
                 this->frame->OnPrevious(ce);
             break;
+            case ' ':
+            case WXK_SPACE:
             case WXK_RIGHT:
                 this->frame->OnNext(ce);
             break;
-            case WXK_ESCAPE :
+            case '+':
+            case WXK_ADD:
+            case WXK_NUMPAD_ADD:
+                this->frame->OnZoomIn(ce);
+            break;
+            case '-':
+            case WXK_SUBTRACT:
+            case WXK_NUMPAD_SUBTRACT:
+                this->frame->OnZoomOut(ce);
+            break;
+            case WXK_ESCAPE:
                 this->frame->OnQuit(ce);
             break;
             default:
-                //std::cerr << "Unbound key:" << event.GetUnicodeKey() << std::endl;
+                //std::cerr << "Unbound key:" << event.GetKeyCode() << " / " << event.GetUnicodeKey() << std::endl;
                 event.Skip();
             break;
         }
