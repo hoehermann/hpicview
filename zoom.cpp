@@ -64,10 +64,11 @@ void hpicviewFrame::FitAndDisplay() {
         /*
         if (!this->IsMaximized()){
             // TODO: do not resize smaller than menu
+            // TODO: consider difference between Frame size and Frame client size
             this->SetClientSize(m_image.GetSize());
             if (
-                this->GetSize().GetWidth() > wxSystemSettings::GetMetric(wxSYS_SCREEN_X) ||
-                this->GetSize().GetHeight() > wxSystemSettings::GetMetric(wxSYS_SCREEN_Y)
+                m_image.GetWidth() > wxSystemSettings::GetMetric(wxSYS_SCREEN_X) ||
+                m_image.GetHeight() > wxSystemSettings::GetMetric(wxSYS_SCREEN_Y)
             ) {
                 this->Maximize();
             }

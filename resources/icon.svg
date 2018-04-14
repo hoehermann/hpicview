@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="32"
+   height="32"
+   id="svg2"
+   version="1.1">
+  <title
+     id="title3426">wxpyWha Icon</title>
+  <defs
+     id="defs4" />
+  <metadata
+     id="metadata7">image/svg+xml<rdf:RDF>
+  <cc:Work
+     rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type
+       rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:title>wxpyWha Icon</dc:title>
+    <dc:date />
+    <dc:creator>
+      <cc:Agent>
+        <dc:title>https://github.com/hoehermann</dc:title>
+      </cc:Agent>
+    </dc:creator>
+    <dc:rights>
+      <cc:Agent>
+        <dc:title />
+      </cc:Agent>
+    </dc:rights>
+    <dc:publisher>
+      <cc:Agent>
+        <dc:title />
+      </cc:Agent>
+    </dc:publisher>
+    <dc:subject>
+      <rdf:Bag />
+    </dc:subject>
+    <cc:license
+       rdf:resource="http://creativecommons.org/licenses/by-sa/3.0/" />
+    <dc:contributor>
+      <cc:Agent>
+        <dc:title>Paul Sherman with http://www.wpclipart.com/animals/snake/snake_clipart/snake_nervous_cartoon.png.html
+The wxWidgets Project with https://commons.wikimedia.org/wiki/File:WxWidgets.svg
+David G. Fandos with https://github.com/davidgfnet/whatsapp-purple/raw/master/whatsapp48.png</dc:title>
+      </cc:Agent>
+    </dc:contributor>
+  </cc:Work>
+  <cc:License
+     rdf:about="http://creativecommons.org/licenses/by-sa/3.0/">
+    <cc:permits
+       rdf:resource="http://creativecommons.org/ns#Reproduction" />
+    <cc:permits
+       rdf:resource="http://creativecommons.org/ns#Distribution" />
+    <cc:requires
+       rdf:resource="http://creativecommons.org/ns#Notice" />
+    <cc:requires
+       rdf:resource="http://creativecommons.org/ns#Attribution" />
+    <cc:permits
+       rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+    <cc:requires
+       rdf:resource="http://creativecommons.org/ns#ShareAlike" />
+  </cc:License>
+</rdf:RDF>
+</metadata>
+  <path
+     id="path3510"
+     d="M 2.2887264,20.427336 7.7175346,20.427336 C 8.749089,20.427336 9.5726831,21.251416 9.5726831,22.282926 L 9.5726831,27.717992 C 9.5726831,28.74988 8.7492478,29.572682 7.7175346,29.572682 L 2.2824668,29.572682 C 1.2507491,29.572682 0.42731826,28.749496 0.42731826,27.717992 L 0.42731826,22.281064 C 0.42731826,21.249324 1.2568575,20.427336 2.2887264,20.427336 Z"
+     style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:#800000;stroke-width:0.8546356;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:20;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:none" />
+  <path
+     id="path3520"
+     style="display:inline;opacity:1;fill:#0000ff;fill-opacity:1;fill-rule:nonzero;stroke:#000080;stroke-width:0.8546356;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:20;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:none"
+     d="M 9.1382251,2.4273582 22.877616,2.4273582 C 25.488306,2.4273582 27.572683,4.5129672 27.572683,7.1235425 L 27.572683,20.878776 C 27.572683,23.490308 25.488706,25.572682 22.877616,25.572682 L 9.1223827,25.572682 C 6.511281,25.572682 4.4273175,23.489332 4.4273175,20.878776 L 4.4273175,7.1188325 C 4.4273175,4.5076702 6.5267402,2.4273582 9.1382251,2.4273582 Z" />
+  <g
+     style="fill:#0000ff"
+     transform="matrix(0.68958884,0,0,0.68958884,-2.871247,77.34987)"
+     id="g4185">
+    <g
+       style="fill:#0000ff"
+       id="g4143">
+      <path
+         style="fill:#0000ff;fill-opacity:1"
+         id="path6"
+         d="M 27.302315,-105.44634 C 27.302315,-105.44634 24.590015,-103.90669 23.417215,-103.43051 22.244375,-102.9539 20.741525,-100.82831 21.804505,-99.17895 22.867495,-97.52959 26.056165,-93.20453 26.056165,-93.20453 26.056165,-93.20453 26.276125,-93.4242 27.045805,-93.53435 L 27.045805,-96.02684 27.522315,-96.02684 27.522315,-93.53435 C 27.522315,-93.53435 28.182095,-93.4977 28.621905,-93.20453 28.621905,-93.20453 32.616815,-98.70234 32.800115,-98.95885 32.983475,-99.21541 33.958025,-102.26828 31.004155,-103.46697 28.475205,-104.4935 27.302315,-105.44634 27.302315,-105.44634 Z" />
+      <path
+         style="fill:#0000ff;fill-opacity:1"
+         id="path8"
+         d="M 29.428045,-90.80423 C 29.428045,-89.64037 28.484385,-88.69665 27.320615,-88.69665 26.156565,-88.69665 25.213045,-89.64037 25.213045,-90.80423 25.213045,-91.96809 26.156565,-92.91156 27.320615,-92.91156 28.484435,-92.91156 29.428045,-91.96804 29.428045,-90.80423 Z" />
+      <path
+         style="fill:#0000ff;fill-opacity:1"
+         id="path10"
+         d="M 41.273365,-95.39824 C 41.273365,-95.39824 38.955205,-97.48473 38.132295,-98.44664 37.309395,-99.40856 34.817675,-100.16244 33.589105,-98.6323 32.360395,-97.1027 29.265495,-92.70986 29.265495,-92.70986 29.265495,-92.70986 29.543385,-92.5706 29.891355,-91.87524 L 32.255775,-92.66346 32.406515,-92.21149 30.042045,-91.42346 C 30.042045,-91.42346 30.215885,-90.78564 30.076825,-90.27583 30.076825,-90.27583 36.555565,-88.22422 36.856945,-88.13156 37.158465,-88.03851 40.362655,-88.07939 40.565985,-91.26043 40.740025,-93.98435 41.273365,-95.39824 41.273365,-95.39824 Z" />
+      <path
+         style="fill:#0000ff;fill-opacity:1"
+         id="path12"
+         d="M 13.458515,-95.39824 C 13.458515,-95.39824 15.776625,-97.48473 16.599535,-98.44664 17.422435,-99.40856 19.914155,-100.16244 21.142715,-98.6323 22.371425,-97.1027 25.466335,-92.70986 25.466335,-92.70986 25.466335,-92.70986 25.188355,-92.5706 24.840425,-91.87524 L 22.476005,-92.66346 22.325315,-92.21149 24.689735,-91.42346 C 24.689735,-91.42346 24.515945,-90.78564 24.654955,-90.27583 24.654955,-90.27583 18.176215,-88.22422 17.874835,-88.13156 17.573315,-88.03851 14.369125,-88.07939 14.165745,-91.26043 13.991805,-93.98435 13.458515,-95.39824 13.458515,-95.39824 Z" />
+      <path
+         style="fill:#0000ff;fill-opacity:1"
+         id="path14"
+         d="M 35.900305,-78.88887 C 35.900305,-78.88887 37.254875,-81.69806 37.948175,-82.75706 38.641475,-83.81654 38.667755,-86.41985 36.855165,-87.17098 35.042825,-87.9226 29.959665,-89.66477 29.959665,-89.66477 29.959665,-89.66477 29.903695,-89.35921 29.333325,-88.83034 L 30.751675,-86.78098 30.359895,-86.50977 28.941685,-88.55913 C 28.941685,-88.55913 28.378075,-88.21394 27.849685,-88.20486 27.849685,-88.20486 27.692755,-81.41086 27.688235,-81.09574 27.683335,-80.78034 28.618975,-77.71521 31.729835,-78.41 34.393665,-79.00527 35.900305,-78.88887 35.900305,-78.88887 Z" />
+      <path
+         style="fill:#0000ff;fill-opacity:1"
+         id="path16"
+         d="M 18.729875,-79.02563 C 18.729875,-79.02563 21.827035,-78.66032 23.054165,-78.34958 24.281625,-78.03931 26.751435,-78.86265 26.871285,-80.82093 26.991285,-82.77945 26.982635,-88.15269 26.982635,-88.15269 26.982635,-88.15269 26.675445,-88.106 25.989735,-88.47295 L 24.514265,-86.46442 24.130025,-86.74649 25.605685,-88.75502 C 25.605685,-88.75502 25.095595,-89.17547 24.914935,-89.67212 24.914935,-89.67212 18.440555,-87.6072 18.140905,-87.50858 17.841165,-87.41064 15.248085,-85.52739 16.918295,-82.81278 18.349095,-80.48804 18.729875,-79.02563 18.729875,-79.02563 Z" />
+    </g>
+  </g>
+  <path
+     id="path3530"
+     d="M 24.28871,20.427318 29.717529,20.427318 C 30.749087,20.427318 31.572683,21.2514 31.572683,22.282912 L 31.572683,27.717988 C 31.572683,28.749878 30.749245,29.572682 29.717529,29.572682 L 24.282452,29.572682 C 23.250732,29.572682 22.4273,28.749494 22.4273,27.717988 L 22.4273,22.28105 C 22.4273,21.249308 23.25684,20.427318 24.28871,20.427318 Z"
+     style="display:inline;opacity:1;fill:#ffff00;fill-opacity:1;fill-rule:nonzero;stroke:#808000;stroke-width:0.85463566;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:20;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:none" />
+</svg>

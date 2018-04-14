@@ -82,10 +82,12 @@ std::set<wxString> GetImageExts()
     return exts;
 }
 
+#include "resources/icon.svg.xpm"
 
 hpicviewFrame::hpicviewFrame(wxFrame *frame)
     : GUIFrame(frame), m_dirty(false), m_image_extensions(GetImageExts())
 {
+    SetIcon(wxIcon(icon_svg_xpm));
     SetStatusText(_("No image."), STATUSBAR_COLUMN_MAIN);
     SetStatusText(wxbuildinfo(short_f), STATUSBAR_COLUMN_INDEX);
 }

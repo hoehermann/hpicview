@@ -56,33 +56,33 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->SetMenuBar( menubar );
 	
 	toolBar = this->CreateToolBar( wxTB_HORIZONTAL, wxID_ANY ); 
-	toolOpen = toolBar->AddTool( wxID_ANY, wxT("&Open"), folder_open_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
+	toolOpen = toolBar->AddTool( wxID_ANY, wxT("&Open"), folder_open_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxT("Open image file…"), wxT("Open image file…"), NULL ); 
 	
 	toolBar->AddSeparator(); 
 	
-	toolRotateLeft = toolBar->AddTool( wxID_ANY, wxT("Rotate &Left"), undo_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
+	toolRotateLeft = toolBar->AddTool( wxID_ANY, wxT("Rotate &Left"), undo_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxT("Rotate Left"), wxT("Rotate JPEG Left"), NULL ); 
 	
-	toolRotateRight = toolBar->AddTool( wxID_ANY, wxT("Rotate &Right"), redo_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
-	
-	toolBar->AddSeparator(); 
-	
-	toolZoomFitAuto = toolBar->AddTool( wxID_ANY, wxT("Zoom to Fit Automatically"), fit_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL ); 
-	
-	toolZoomFit = toolBar->AddTool( wxID_ANY, wxT("Zoom &to Fit"), fit_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
-	
-	toolZoomIn = toolBar->AddTool( wxID_ANY, wxT("Zoom &In"), search_plus_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
-	
-	toolZoomOut = toolBar->AddTool( wxID_ANY, wxT("Zoom O&ut"), search_minus_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
+	toolRotateRight = toolBar->AddTool( wxID_ANY, wxT("Rotate &Right"), redo_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxT("Rotate Right"), wxT("Rotate JPEG Right"), NULL ); 
 	
 	toolBar->AddSeparator(); 
 	
-	toolPrevious = toolBar->AddTool( wxID_ANY, wxT("Previous"), arrow_left_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
+	toolZoomFitAuto = toolBar->AddTool( wxID_ANY, wxT("Zoom to Fit Automatically"), fit_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_CHECK, wxT("Automatically Zoom to Fit"), wxT("Automatically Zoom to Fit"), NULL ); 
 	
-	toolNext = toolBar->AddTool( wxID_ANY, wxT("Next"), arrow_right_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
+	toolZoomFit = toolBar->AddTool( wxID_ANY, wxT("Zoom &to Fit"), fit_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxT("Zoom to Fit"), wxT("Zoom to Fit"), NULL ); 
+	
+	toolZoomIn = toolBar->AddTool( wxID_ANY, wxT("Zoom &In"), search_plus_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxT("Zoom In"), wxT("Zoom In"), NULL ); 
+	
+	toolZoomOut = toolBar->AddTool( wxID_ANY, wxT("Zoom O&ut"), search_minus_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxT("Zoom Out"), wxT("Zoom Out"), NULL ); 
 	
 	toolBar->AddSeparator(); 
 	
-	toolAbout = toolBar->AddTool( wxID_ANY, wxT("tool"), question_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
+	toolPrevious = toolBar->AddTool( wxID_ANY, wxT("Previous"), arrow_left_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxT("Previous"), wxT("Load previous file in directory"), NULL ); 
+	
+	toolNext = toolBar->AddTool( wxID_ANY, wxT("Next"), arrow_right_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxT("Next"), wxT("Load next file in directory"), NULL ); 
+	
+	toolBar->AddSeparator(); 
+	
+	toolAbout = toolBar->AddTool( wxID_ANY, wxT("tool"), question_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxT("About"), wxT("Show information about this application"), NULL ); 
 	
 	toolBar->Realize(); 
 	
