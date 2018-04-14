@@ -8,10 +8,13 @@
  **************************************************************/
 
 // TODO: try to open all images (get all available image handlers, query their extensions; check against /list/ of allowed extensions, ignore case in directory iterator; offer rotation only for JPEG)
+// TODO: fullscreen mode
+// TODO: scaling
 // TODO: reset exif orientation flag after rotate
 // TODO: transform thumbnail, too
 // TODO: enable global exceptions
 // TODO: scan folder in background
+// TODO: build application against the same libjpeg as wxwidgets
 
 #include "hpicviewMain.h"
 #include <wx/msgdlg.h>
@@ -62,9 +65,26 @@ wxString wxbuildinfo(wxbuildinfoformat format)
     return wxbuild;
 }
 
+#include <iostream>
+
+// based on wxString wxImage::GetImageExtWildcard() from src/common/image.cpp
+std::set<wxString> GetImageExts()
+{
+    std::set<wxString> exts;
+    wxList& Handlers = wxImage::GetHandlers();
+    for (const auto & o : Handlers) {
+        wxImageHandler* Handler = (wxImageHandler*)o;
+        exts.insert(wxString("."+Handler->GetExtension()));
+        for (const auto & e : Handler->GetAltExtensions()) {
+            exts.insert(wxString("."+e));
+        }
+    }
+    return exts;
+}
+
 
 hpicviewFrame::hpicviewFrame(wxFrame *frame)
-    : GUIFrame(frame), dirty(false)
+    : GUIFrame(frame), dirty(false), image_extensions(GetImageExts())
 {
     SetStatusText(_("No image."), 0);
     SetStatusText(wxbuildinfo(short_f), 1);
@@ -84,24 +104,49 @@ void hpicviewFrame::OnQuit(wxCommandEvent&)
     Destroy();
 }
 
+wxString GetImageExtWildcard(std::set<wxString> image_extensions){
+    wxString exts;
+    bool first = true;
+    for(const auto & e : image_extensions) {
+        if (first) {
+            first = false;
+        } else {
+            exts << ";";
+        }
+        exts << "*" << e;
+    }
+    return exts;
+}
+
 void hpicviewFrame::OnAbout(wxCommandEvent&)
 {
     wxString msg;
+#ifndef VERSION
+    #define VERSION "unknown"
+#endif
     msg << "hpicview Version " << VERSION << "\n\n";
     msg << "Built with " << wxbuildinfo(long_f) << "\n\n";
-    msg << "Contains icons by fontawesome.";
+    msg << "Contains icons by fontawesome.\n\n";
+    msg << "Built-in image format extensions:\n" << GetImageExtWildcard(image_extensions);
     wxMessageBox(msg, _("About hpicview"));
 }
 
 #include <wx/filedlg.h>
 
 void hpicviewFrame::OnOpen(wxCommandEvent&) {
+    wxString exts("All built-in image files|");
+    exts << GetImageExtWildcard(image_extensions);
+    exts << "|";
+
 	wxFileDialog openFileDialog(
         this, _("Open file"), "", "",
         "JPEG files|*.jpg;*.jpeg|"
+        + exts +
+        // "All built-in image files "+wxImage::GetImageExtWildcard()+"|"
         "All files|*.*",
         wxFD_OPEN, wxDefaultPosition
     );
+
 	if (openFileDialog.ShowModal() == wxID_OK) {
         try {
             OpenFile(openFileDialog.GetPath());
@@ -113,9 +158,12 @@ void hpicviewFrame::OnOpen(wxCommandEvent&) {
 
 void hpicviewFrame::OnRotateRight(wxCommandEvent&) {
     try {
-        jpegdata = JPEGtran::rotate_right(jpegdata);
+        if (m_image.GetType() !=  wxBITMAP_TYPE_JPEG) {
+            throw std::runtime_error("No JPEG loaded.");
+        }
+        imagedata = JPEGtran::rotate_right(imagedata);
         dirty = true;
-        SetJPEG(jpegdata);
+        SetImageData(imagedata);
         WriteIfDirty(); // TODO: write on close / switch file / explicit request only
     } catch (std::exception & ex) {
         wxMessageBox(ex.what(), _("Unable to perform"));
@@ -124,9 +172,12 @@ void hpicviewFrame::OnRotateRight(wxCommandEvent&) {
 
 void hpicviewFrame::OnRotateLeft(wxCommandEvent&) {
     try {
-        jpegdata = JPEGtran::rotate_left(jpegdata);
+        if (m_image.GetType() !=  wxBITMAP_TYPE_JPEG) {
+            throw std::runtime_error("No JPEG loaded.");
+        }
+        imagedata = JPEGtran::rotate_left(imagedata);
         dirty = true;
-        SetJPEG(jpegdata);
+        SetImageData(imagedata);
         WriteIfDirty(); // TODO: write on close / switch file / explicit request only
     } catch (std::exception & ex) {
         wxMessageBox(ex.what(), _("Unable to perform"));
@@ -143,15 +194,17 @@ hpicviewFrame::UpdateDirectoryListing(
     std::copy_if(
         directory_iterator, {},
         std::back_inserter(filenames_images),
-        [](const boost::filesystem::path & p){return p.extension() == ".jpg";}
+        [this](const boost::filesystem::path & p){
+            return this->image_extensions.count(wxString(p.extension().c_str()).Lower());
+        }
     );
     std::sort(filenames_images.begin(), filenames_images.end());
     return find(filenames_images.begin(), filenames_images.end(), path);
 }
 
 void hpicviewFrame::OpenFile(const wxString & filename) {
-    this->jpegdata = get_file_contents(std::string(filename));
-    SetJPEG(jpegdata);
+    this->imagedata = get_file_contents(std::string(filename));
+    SetImageData(imagedata);
     boost::filesystem::path path(filename);
     path = boost::filesystem::canonical(path);
     this->modification_date =
@@ -185,27 +238,25 @@ void hpicviewFrame::WriteIfDirty() {
 }
 
 void hpicviewFrame::Write(const wxString & filename) {
-    if (!jpegdata.size()) {
+    if (imagedata.empty()) {
         throw std::runtime_error("Tried to write empty file. This should never happen.");
     }
     dirty = false;
     auto f = std::fstream(filename, std::ios::out | std::ios::binary);
-    f.write(jpegdata.c_str(), jpegdata.size());
+    f.write(imagedata.c_str(), imagedata.size());
     f.close();
 }
 
 #include <wx/mstream.h>
 
-void hpicviewFrame::SetJPEG(const std::string & jpegdata) {
+void hpicviewFrame::SetImageData(const std::string & imagedata) {
     /* from https://forums.wxwidgets.org/viewtopic.php?t=18325 */
-    wxMemoryInputStream jpegStream(
-        (unsigned char *)jpegdata.c_str(),
-        jpegdata.size()
+    wxMemoryInputStream imagedataStream(
+        (unsigned char *)imagedata.c_str(),
+        imagedata.size()
     );
-    wxImage jpegImage;
-    jpegImage.LoadFile(jpegStream, wxBITMAP_TYPE_JPEG);
-    wxBitmap b(jpegImage);
-    m_bitmap->SetBitmap(b);
+    m_image.LoadFile(imagedataStream);
+    m_bitmap->SetBitmap(wxBitmap(m_image));
 }
 
 void hpicviewFrame::OnPrevious(wxCommandEvent&) {

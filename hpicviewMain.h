@@ -14,6 +14,7 @@
 #include <string>
 
 #include <boost/filesystem.hpp>
+#include <set>
 
 class hpicviewFrame: public GUIFrame
 {
@@ -32,7 +33,7 @@ class hpicviewFrame: public GUIFrame
         virtual void OnAbout(wxCommandEvent& event);
         virtual void OnOpen(wxCommandEvent& event);
 
-        void SetJPEG(const std::string & jpegdata);
+        void SetImageData(const std::string & imagedata);
         void WriteIfDirty();
         void Write(const wxString & filename); // TODO: switch to boost::filesystem::path
         void SetPosition(const std::vector<boost::filesystem::path>::iterator & p);
@@ -41,9 +42,14 @@ class hpicviewFrame: public GUIFrame
         // these represent the currently loaded image
         boost::filesystem::path filename;
         std::time_t modification_date;
-        std::string jpegdata;
+        std::string imagedata;
+        wxImage m_image;
         bool dirty;
 
+        // for walking the directory
         std::vector<boost::filesystem::path> filenames_images;
         std::vector<boost::filesystem::path>::iterator filenames_position;
+
+        // configuration
+        std::set<wxString> image_extensions;
 };
