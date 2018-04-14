@@ -142,7 +142,7 @@ void hpicviewFrame::OnOpen(wxCommandEvent&) {
 
 	wxFileDialog openFileDialog(
         this, _("Open file"), "", "",
-        "JPEG files|*.jpg;*.jpeg|"
+        "JPEG files|*.jpg;*.jpeg;*.JPG|"
         + exts +
         // "All built-in image files "+wxImage::GetImageExtWildcard()+"|"
         "All files|*.*",
@@ -169,14 +169,12 @@ void hpicviewFrame::OpenFile(const wxString & filename) {
     this->m_filename = path;
 
     SetTitle(wxString::Format(wxT("hpicview - %s"),path.filename().c_str()));
-    SetStatusText(wxString::Format(wxT("Loaded %s."),path.filename().c_str()), STATUSBAR_COLUMN_MAIN);
+    SetStatusText(wxString::Format(wxT("Loaded %s"),path.filename().c_str()), STATUSBAR_COLUMN_MAIN);
     if (directory_has_changed) {
         std::vector<boost::filesystem::path>::iterator p = UpdateDirectoryListing(path);
         SetFileIndex(p);
     }
-
-    SetViewZoomExponent(0);
-    Layout();
+    FitAndDisplay();
 }
 
 void hpicviewFrame::WriteIfDirty() {
@@ -208,6 +206,11 @@ void hpicviewFrame::SetImageData(const std::string & imagedata) {
         imagedata.size()
     );
     m_image.LoadFile(imagedataStream);
-    m_bitmap->SetBitmap(wxBitmap(m_image));
+}
+
+void hpicviewFrame::SetConfiguration() {
+    this->toolBar->ToggleTool(
+        this->toolZoomFitAuto->GetId(),
+        true); // TODO: make configurable
 }
 

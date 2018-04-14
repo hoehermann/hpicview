@@ -11,6 +11,9 @@ void hpicviewFrame::SetViewZoomExponent(int view_zoom_exponent) {
 }
 
 void hpicviewFrame::ScaleImage(int view_zoom_exponent) {
+    if (!m_image.IsOk()) {
+        return;
+    }
     int width = m_image.GetWidth();
     int height = m_image.GetHeight();
     float view_zoom_factor = std::pow(2, view_zoom_exponent);
@@ -25,6 +28,25 @@ void hpicviewFrame::ScaleImage(int view_zoom_exponent) {
     Layout();
 }
 
+void hpicviewFrame::ZoomFit() {
+    if (!m_image.IsOk()) {
+        return;
+    }
+    float image_width = m_image.GetWidth();
+    float image_height = m_image.GetHeight();
+    const wxSize & client_size = m_mainScrolledWindow->GetClientSize();
+    float client_width = client_size.GetWidth();
+    float client_height = client_size.GetHeight();
+    float smaller_factor =
+        std::min(client_height/image_height, client_width/image_width);
+    int fit_zoom_exponent = std::floor(std::log2(smaller_factor));
+    ScaleImage(fit_zoom_exponent);
+}
+
+void hpicviewFrame::OnZoomFit(wxCommandEvent&) {
+    ZoomFit();
+}
+
 void hpicviewFrame::OnZoomOut(wxCommandEvent&) {
     try {
         ScaleImage(this->m_view_zoom_exponent-1);
@@ -34,9 +56,26 @@ void hpicviewFrame::OnZoomOut(wxCommandEvent&) {
 }
 
 void hpicviewFrame::OnZoomIn(wxCommandEvent&) {
-    try {
-        ScaleImage(this->m_view_zoom_exponent+1);
-    } catch(std::exception & ex) {
-        wxMessageBox(ex.what(), _("Unable to perform"));
+    ScaleImage(this->m_view_zoom_exponent+1);
+}
+
+void hpicviewFrame::FitAndDisplay() {
+    if (this->toolZoomFitAuto->IsToggled()) {
+        /*
+        if (!this->IsMaximized()){
+            // TODO: do not resize smaller than menu
+            this->SetClientSize(m_image.GetSize());
+            if (
+                this->GetSize().GetWidth() > wxSystemSettings::GetMetric(wxSYS_SCREEN_X) ||
+                this->GetSize().GetHeight() > wxSystemSettings::GetMetric(wxSYS_SCREEN_Y)
+            ) {
+                this->Maximize();
+            }
+        }
+        */
+        ZoomFit();
+    } else {
+        SetViewZoomExponent(0);
+        m_bitmap->SetBitmap(wxBitmap(m_image));
     }
 }

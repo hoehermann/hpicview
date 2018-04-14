@@ -44,7 +44,7 @@
             <property name="minimum_size"></property>
             <property name="name">GUIFrame</property>
             <property name="pos"></property>
-            <property name="size">481,466</property>
+            <property name="size">670,250</property>
             <property name="style">wxDEFAULT_FRAME_STYLE</property>
             <property name="subclass"></property>
             <property name="title">hpicview</property>
@@ -373,6 +373,48 @@
                     <property name="permission">protected</property>
                 </object>
                 <object class="tool" expanded="1">
+                    <property name="bitmap">Load From Embedded File; resources/fit.svg.png</property>
+                    <property name="context_menu">0</property>
+                    <property name="id">wxID_ANY</property>
+                    <property name="kind">wxITEM_CHECK</property>
+                    <property name="label">Zoom to Fit Automatically</property>
+                    <property name="name">toolZoomFitAuto</property>
+                    <property name="permission">protected</property>
+                    <property name="statusbar"></property>
+                    <property name="tooltip"></property>
+                    <event name="OnAuiToolBarBeginDrag"></event>
+                    <event name="OnAuiToolBarMiddleClick"></event>
+                    <event name="OnAuiToolBarOverflowClick"></event>
+                    <event name="OnAuiToolBarRightClick"></event>
+                    <event name="OnAuiToolBarToolDropDown"></event>
+                    <event name="OnMenuSelection"></event>
+                    <event name="OnToolClicked">OnZoomFitAuto</event>
+                    <event name="OnToolEnter"></event>
+                    <event name="OnToolRClicked"></event>
+                    <event name="OnUpdateUI"></event>
+                </object>
+                <object class="tool" expanded="1">
+                    <property name="bitmap">Load From Embedded File; resources/fit.svg.png</property>
+                    <property name="context_menu">0</property>
+                    <property name="id">wxID_ANY</property>
+                    <property name="kind">wxITEM_NORMAL</property>
+                    <property name="label">Zoom &amp;to Fit</property>
+                    <property name="name">toolZoomFit</property>
+                    <property name="permission">protected</property>
+                    <property name="statusbar"></property>
+                    <property name="tooltip"></property>
+                    <event name="OnAuiToolBarBeginDrag"></event>
+                    <event name="OnAuiToolBarMiddleClick"></event>
+                    <event name="OnAuiToolBarOverflowClick"></event>
+                    <event name="OnAuiToolBarRightClick"></event>
+                    <event name="OnAuiToolBarToolDropDown"></event>
+                    <event name="OnMenuSelection"></event>
+                    <event name="OnToolClicked">OnZoomFit</event>
+                    <event name="OnToolEnter"></event>
+                    <event name="OnToolRClicked"></event>
+                    <event name="OnUpdateUI"></event>
+                </object>
+                <object class="tool" expanded="1">
                     <property name="bitmap">Load From Embedded File; resources/search_plus.svg.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">wxID_ANY</property>
@@ -491,7 +533,7 @@
                 <property name="permission">none</property>
                 <object class="sizeritem" expanded="1">
                     <property name="border">5</property>
-                    <property name="flag">wxEXPAND | wxALL</property>
+                    <property name="flag">wxALIGN_CENTER|wxEXPAND</property>
                     <property name="proportion">1</property>
                     <object class="wxScrolledWindow" expanded="1">
                         <property name="BottomDockable">1</property>
@@ -528,7 +570,7 @@
                         <property name="minimize_button">0</property>
                         <property name="minimum_size"></property>
                         <property name="moveable">1</property>
-                        <property name="name">mainScrolledWindow</property>
+                        <property name="name">m_mainScrolledWindow</property>
                         <property name="pane_border">1</property>
                         <property name="pane_position"></property>
                         <property name="pane_size"></property>
@@ -576,7 +618,7 @@
                             <property name="permission">none</property>
                             <object class="sizeritem" expanded="1">
                                 <property name="border">5</property>
-                                <property name="flag">wxALL</property>
+                                <property name="flag">wxALIGN_CENTER|wxEXPAND</property>
                                 <property name="proportion">1</property>
                                 <object class="wxStaticBitmap" expanded="1">
                                     <property name="BottomDockable">1</property>

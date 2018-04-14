@@ -9,6 +9,7 @@
 
 #include "resources/arrow_left.svg.png.h"
 #include "resources/arrow_right.svg.png.h"
+#include "resources/fit.svg.png.h"
 #include "resources/folder_open.svg.png.h"
 #include "resources/question.svg.png.h"
 #include "resources/redo.svg.png.h"
@@ -65,6 +66,10 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	toolBar->AddSeparator(); 
 	
+	toolZoomFitAuto = toolBar->AddTool( wxID_ANY, wxT("Zoom to Fit Automatically"), fit_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_CHECK, wxEmptyString, wxEmptyString, NULL ); 
+	
+	toolZoomFit = toolBar->AddTool( wxID_ANY, wxT("Zoom &to Fit"), fit_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
+	
 	toolZoomIn = toolBar->AddTool( wxID_ANY, wxT("Zoom &In"), search_plus_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
 	
 	toolZoomOut = toolBar->AddTool( wxID_ANY, wxT("Zoom O&ut"), search_minus_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString, NULL ); 
@@ -84,19 +89,19 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* mainSizer;
 	mainSizer = new wxBoxSizer( wxVERTICAL );
 	
-	mainScrolledWindow = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
-	mainScrolledWindow->SetScrollRate( 5, 5 );
+	m_mainScrolledWindow = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	m_mainScrolledWindow->SetScrollRate( 5, 5 );
 	wxBoxSizer* mainScrolledWindowSizer;
 	mainScrolledWindowSizer = new wxBoxSizer( wxVERTICAL );
 	
-	m_bitmap = new wxStaticBitmap( mainScrolledWindow, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-	mainScrolledWindowSizer->Add( m_bitmap, 1, wxALL, 5 );
+	m_bitmap = new wxStaticBitmap( m_mainScrolledWindow, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
+	mainScrolledWindowSizer->Add( m_bitmap, 1, wxALIGN_CENTER|wxEXPAND, 5 );
 	
 	
-	mainScrolledWindow->SetSizer( mainScrolledWindowSizer );
-	mainScrolledWindow->Layout();
-	mainScrolledWindowSizer->Fit( mainScrolledWindow );
-	mainSizer->Add( mainScrolledWindow, 1, wxEXPAND | wxALL, 5 );
+	m_mainScrolledWindow->SetSizer( mainScrolledWindowSizer );
+	m_mainScrolledWindow->Layout();
+	mainScrolledWindowSizer->Fit( m_mainScrolledWindow );
+	mainSizer->Add( m_mainScrolledWindow, 1, wxALIGN_CENTER|wxEXPAND, 5 );
 	
 	
 	this->SetSizer( mainSizer );
@@ -114,6 +119,8 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->Connect( toolOpen->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnOpen ) );
 	this->Connect( toolRotateLeft->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnRotateLeft ) );
 	this->Connect( toolRotateRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnRotateRight ) );
+	this->Connect( toolZoomFitAuto->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomFitAuto ) );
+	this->Connect( toolZoomFit->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomFit ) );
 	this->Connect( toolZoomIn->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomIn ) );
 	this->Connect( toolZoomOut->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomOut ) );
 	this->Connect( toolPrevious->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnPrevious ) );
@@ -134,6 +141,8 @@ GUIFrame::~GUIFrame()
 	this->Disconnect( toolOpen->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnOpen ) );
 	this->Disconnect( toolRotateLeft->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnRotateLeft ) );
 	this->Disconnect( toolRotateRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnRotateRight ) );
+	this->Disconnect( toolZoomFitAuto->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomFitAuto ) );
+	this->Disconnect( toolZoomFit->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomFit ) );
 	this->Disconnect( toolZoomIn->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomIn ) );
 	this->Disconnect( toolZoomOut->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomOut ) );
 	this->Disconnect( toolPrevious->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnPrevious ) );

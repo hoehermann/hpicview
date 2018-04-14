@@ -47,12 +47,14 @@ class GUIFrame : public wxFrame
 		wxToolBarToolBase* toolOpen; 
 		wxToolBarToolBase* toolRotateLeft; 
 		wxToolBarToolBase* toolRotateRight; 
+		wxToolBarToolBase* toolZoomFitAuto; 
+		wxToolBarToolBase* toolZoomFit; 
 		wxToolBarToolBase* toolZoomIn; 
 		wxToolBarToolBase* toolZoomOut; 
 		wxToolBarToolBase* toolPrevious; 
 		wxToolBarToolBase* toolNext; 
 		wxToolBarToolBase* toolAbout; 
-		wxScrolledWindow* mainScrolledWindow;
+		wxScrolledWindow* m_mainScrolledWindow;
 		wxStaticBitmap* m_bitmap;
 		wxStatusBar* statusBar;
 		
@@ -64,6 +66,8 @@ class GUIFrame : public wxFrame
 		virtual void OnRotateLeft( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnRotateRight( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAbout( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnZoomFitAuto( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnZoomFit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnZoomIn( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnZoomOut( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnPrevious( wxCommandEvent& event ) { event.Skip(); }
@@ -72,7 +76,7 @@ class GUIFrame : public wxFrame
 	
 	public:
 		
-		GUIFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("hpicview"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 481,466 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		GUIFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("hpicview"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 670,250 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~GUIFrame();
 	

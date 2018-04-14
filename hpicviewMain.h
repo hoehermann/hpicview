@@ -30,7 +30,11 @@ class hpicviewFrame: public GUIFrame
         virtual void OnRotateRight(wxCommandEvent& event);
         virtual void OnZoomOut(wxCommandEvent& event);
         virtual void OnZoomIn(wxCommandEvent& event);
+        virtual void SetConfiguration();
     private:
+        virtual void ZoomFit();
+        virtual void FitAndDisplay();
+        virtual void OnZoomFit(wxCommandEvent& event);
         virtual void OnClose(wxCloseEvent& event);
         virtual void OnAbout(wxCommandEvent& event);
         virtual void OnOpen(wxCommandEvent& event);

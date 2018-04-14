@@ -17,12 +17,14 @@ bool hpicviewApp::OnInit() {
 
     this->frame = new hpicviewFrame(0L);
 
+    this->frame->SetConfiguration();
+
+    this->frame->Show();
+
     // TODO: use wxCmdLineParser, treat first positional argument as filename
     if (this->argc == 2) {
         this->frame->OpenFile(this->argv[1]);
     }
-
-    this->frame->Show();
 
     Bind(wxEVT_CHAR_HOOK, &hpicviewApp::OnCharHook, this);
 
@@ -53,7 +55,6 @@ void hpicviewApp::OnCharHook(wxKeyEvent& event) {
             case WXK_LEFT:
                 this->frame->OnPrevious(ce);
             break;
-            case ' ':
             case WXK_SPACE:
             case WXK_RIGHT:
                 this->frame->OnNext(ce);
