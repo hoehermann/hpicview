@@ -11,6 +11,7 @@
 #include "resources/arrow_right.svg.png.h"
 #include "resources/fit.svg.png.h"
 #include "resources/folder_open.svg.png.h"
+#include "resources/icon.svg.png.h"
 #include "resources/question.svg.png.h"
 #include "resources/redo.svg.png.h"
 #include "resources/search_minus.svg.png.h"
@@ -94,14 +95,14 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* mainScrolledWindowSizer;
 	mainScrolledWindowSizer = new wxBoxSizer( wxVERTICAL );
 	
-	m_bitmap = new wxStaticBitmap( m_mainScrolledWindow, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-	mainScrolledWindowSizer->Add( m_bitmap, 1, wxALIGN_CENTER|wxEXPAND, 5 );
+	m_bitmap = new wxStaticBitmap( m_mainScrolledWindow, wxID_ANY, icon_svg_png_to_wx_bitmap(), wxDefaultPosition, wxDefaultSize, 0 );
+	mainScrolledWindowSizer->Add( m_bitmap, 1, wxEXPAND, 5 );
 	
 	
 	m_mainScrolledWindow->SetSizer( mainScrolledWindowSizer );
 	m_mainScrolledWindow->Layout();
 	mainScrolledWindowSizer->Fit( m_mainScrolledWindow );
-	mainSizer->Add( m_mainScrolledWindow, 1, wxALIGN_CENTER|wxEXPAND, 5 );
+	mainSizer->Add( m_mainScrolledWindow, 1, wxEXPAND, 5 );
 	
 	
 	this->SetSizer( mainSizer );

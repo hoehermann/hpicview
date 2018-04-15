@@ -41,5 +41,9 @@ hpicviewFrame::UpdateDirectoryListing(
 void hpicviewFrame::SetFileIndex(const std::vector<boost::filesystem::path>::iterator & p) {
     this->filenames_position = p;
     ptrdiff_t pos = std::distance(filenames_images.begin(), filenames_position);
-    SetStatusText(wxString::Format(wxT("%ld/%ld"),pos+1,filenames_images.size()), STATUSBAR_COLUMN_INDEX);
+    SetStatusText(wxString::Format(
+        wxT("%u/%u"),
+        uint(pos+1),
+        uint(filenames_images.size())
+    ), STATUSBAR_COLUMN_INDEX);
 }

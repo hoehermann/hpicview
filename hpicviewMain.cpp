@@ -15,6 +15,7 @@
 // TODO: enable global exceptions
 // TODO: scan folder in background
 // TODO: build application against the same libjpeg as wxwidgets
+// TODO: depend on libjpeg as git submodule
 
 #include "hpicviewMain.h"
 

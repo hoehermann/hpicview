@@ -533,7 +533,7 @@
                 <property name="permission">none</property>
                 <object class="sizeritem" expanded="1">
                     <property name="border">5</property>
-                    <property name="flag">wxALIGN_CENTER|wxEXPAND</property>
+                    <property name="flag">wxEXPAND</property>
                     <property name="proportion">1</property>
                     <object class="wxScrolledWindow" expanded="1">
                         <property name="BottomDockable">1</property>
@@ -618,7 +618,7 @@
                             <property name="permission">none</property>
                             <object class="sizeritem" expanded="1">
                                 <property name="border">5</property>
-                                <property name="flag">wxALIGN_CENTER|wxEXPAND</property>
+                                <property name="flag">wxEXPAND</property>
                                 <property name="proportion">1</property>
                                 <object class="wxStaticBitmap" expanded="1">
                                     <property name="BottomDockable">1</property>
@@ -631,7 +631,7 @@
                                     <property name="aui_row"></property>
                                     <property name="best_size"></property>
                                     <property name="bg"></property>
-                                    <property name="bitmap"></property>
+                                    <property name="bitmap">Load From Embedded File; resources/icon.svg.png</property>
                                     <property name="caption"></property>
                                     <property name="caption_visible">1</property>
                                     <property name="center_pane">0</property>
