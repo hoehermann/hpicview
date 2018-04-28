@@ -24,7 +24,7 @@ void hpicviewFrame::ScaleImage(int view_zoom_exponent) {
     }
     SetViewZoomExponent(view_zoom_exponent);
     wxImage scaledImage = m_image.Scale(width, height, wxIMAGE_QUALITY_NEAREST);
-    this->m_bitmap->SetBitmap(wxBitmap(scaledImage));
+    this->bitmap->SetBitmap(wxBitmap(scaledImage));
     Layout();
 }
 
@@ -34,7 +34,7 @@ void hpicviewFrame::ZoomFit() {
     }
     float image_width = m_image.GetWidth();
     float image_height = m_image.GetHeight();
-    const wxSize & client_size = m_mainScrolledWindow->GetClientSize();
+    const wxSize & client_size = this->mainScrolledWindow->GetClientSize();
     float client_width = client_size.GetWidth();
     float client_height = client_size.GetHeight();
     float smaller_factor =
@@ -60,7 +60,7 @@ void hpicviewFrame::OnZoomIn(wxCommandEvent&) {
 }
 
 void hpicviewFrame::FitAndDisplay() {
-    if (this->toolZoomFitAuto->IsToggled()) {
+    if (this->menuViewZoomFitAuto->IsChecked()) {
         /*
         if (!this->IsMaximized()){
             // TODO: do not resize smaller than menu
@@ -77,6 +77,6 @@ void hpicviewFrame::FitAndDisplay() {
         ZoomFit();
     } else {
         SetViewZoomExponent(0);
-        m_bitmap->SetBitmap(wxBitmap(m_image));
+        this->bitmap->SetBitmap(wxBitmap(m_image));
     }
 }

@@ -47,6 +47,13 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	menubar->Append( m_menuImage, wxT("&Image") ); 
 	
+	menuView = new wxMenu();
+	menuViewZoomFitAuto = new wxMenuItem( menuView, wxID_ANY, wxString( wxT("Zoom to Fit Automatically") ) , wxEmptyString, wxITEM_CHECK );
+	menuView->Append( menuViewZoomFitAuto );
+	menuViewZoomFitAuto->Check( true );
+	
+	menubar->Append( menuView, wxT("View") ); 
+	
 	menuHelp = new wxMenu();
 	wxMenuItem* menuHelpAbout;
 	menuHelpAbout = new wxMenuItem( menuHelp, idMenuAbout, wxString( wxT("&About") ) + wxT('\t') + wxT("F1"), wxT("Show info about this application"), wxITEM_NORMAL );
@@ -66,8 +73,6 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	toolRotateRight = toolBar->AddTool( wxID_ANY, wxT("Rotate &Right"), redo_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxT("Rotate Right"), wxT("Rotate JPEG Right"), NULL ); 
 	
 	toolBar->AddSeparator(); 
-	
-	toolZoomFitAuto = toolBar->AddTool( wxID_ANY, wxT("Zoom to Fit Automatically"), fit_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_CHECK, wxT("Automatically Zoom to Fit"), wxT("Automatically Zoom to Fit"), NULL ); 
 	
 	toolZoomFit = toolBar->AddTool( wxID_ANY, wxT("Zoom &to Fit"), fit_svg_png_to_wx_bitmap(), wxNullBitmap, wxITEM_NORMAL, wxT("Zoom to Fit"), wxT("Zoom to Fit"), NULL ); 
 	
@@ -90,19 +95,19 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* mainSizer;
 	mainSizer = new wxBoxSizer( wxVERTICAL );
 	
-	m_mainScrolledWindow = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
-	m_mainScrolledWindow->SetScrollRate( 5, 5 );
+	mainScrolledWindow = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	mainScrolledWindow->SetScrollRate( 5, 5 );
 	wxBoxSizer* mainScrolledWindowSizer;
 	mainScrolledWindowSizer = new wxBoxSizer( wxVERTICAL );
 	
-	m_bitmap = new wxStaticBitmap( m_mainScrolledWindow, wxID_ANY, icon_svg_png_to_wx_bitmap(), wxDefaultPosition, wxDefaultSize, 0 );
-	mainScrolledWindowSizer->Add( m_bitmap, 1, wxEXPAND, 5 );
+	bitmap = new wxStaticBitmap( mainScrolledWindow, wxID_ANY, icon_svg_png_to_wx_bitmap(), wxDefaultPosition, wxDefaultSize, 0 );
+	mainScrolledWindowSizer->Add( bitmap, 1, wxEXPAND, 5 );
 	
 	
-	m_mainScrolledWindow->SetSizer( mainScrolledWindowSizer );
-	m_mainScrolledWindow->Layout();
-	mainScrolledWindowSizer->Fit( m_mainScrolledWindow );
-	mainSizer->Add( m_mainScrolledWindow, 1, wxEXPAND, 5 );
+	mainScrolledWindow->SetSizer( mainScrolledWindowSizer );
+	mainScrolledWindow->Layout();
+	mainScrolledWindowSizer->Fit( mainScrolledWindow );
+	mainSizer->Add( mainScrolledWindow, 1, wxEXPAND, 5 );
 	
 	
 	this->SetSizer( mainSizer );
@@ -120,7 +125,6 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->Connect( toolOpen->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnOpen ) );
 	this->Connect( toolRotateLeft->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnRotateLeft ) );
 	this->Connect( toolRotateRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnRotateRight ) );
-	this->Connect( toolZoomFitAuto->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomFitAuto ) );
 	this->Connect( toolZoomFit->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomFit ) );
 	this->Connect( toolZoomIn->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomIn ) );
 	this->Connect( toolZoomOut->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomOut ) );
@@ -142,7 +146,6 @@ GUIFrame::~GUIFrame()
 	this->Disconnect( toolOpen->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnOpen ) );
 	this->Disconnect( toolRotateLeft->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnRotateLeft ) );
 	this->Disconnect( toolRotateRight->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnRotateRight ) );
-	this->Disconnect( toolZoomFitAuto->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomFitAuto ) );
 	this->Disconnect( toolZoomFit->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomFit ) );
 	this->Disconnect( toolZoomIn->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomIn ) );
 	this->Disconnect( toolZoomOut->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnZoomOut ) );

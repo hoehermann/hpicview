@@ -212,8 +212,6 @@ void hpicviewFrame::SetImageData(const std::string & imagedata) {
 }
 
 void hpicviewFrame::SetConfiguration() {
-    this->toolBar->ToggleTool(
-        this->toolZoomFitAuto->GetId(),
-        true); // TODO: make configurable
+    // this->menuViewZoomFitAuto->Checked(true);
 }
 

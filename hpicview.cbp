@@ -50,10 +50,6 @@
 		<Unit filename="GUIFrame.h" />
 		<Unit filename="WxWizFrame.fbp" />
 		<Unit filename="directory_iteration.cpp" />
-		<Unit filename="flatmain.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
 		<Unit filename="hpicviewApp.cpp" />
 		<Unit filename="hpicviewApp.h" />
 		<Unit filename="hpicviewMain.cpp" />

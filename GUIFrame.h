@@ -42,20 +42,21 @@ class GUIFrame : public wxFrame
 		wxMenuBar* menubar;
 		wxMenu* menuFile;
 		wxMenu* m_menuImage;
+		wxMenu* menuView;
+		wxMenuItem* menuViewZoomFitAuto;
 		wxMenu* menuHelp;
 		wxToolBar* toolBar;
 		wxToolBarToolBase* toolOpen; 
 		wxToolBarToolBase* toolRotateLeft; 
 		wxToolBarToolBase* toolRotateRight; 
-		wxToolBarToolBase* toolZoomFitAuto; 
 		wxToolBarToolBase* toolZoomFit; 
 		wxToolBarToolBase* toolZoomIn; 
 		wxToolBarToolBase* toolZoomOut; 
 		wxToolBarToolBase* toolPrevious; 
 		wxToolBarToolBase* toolNext; 
 		wxToolBarToolBase* toolAbout; 
-		wxScrolledWindow* m_mainScrolledWindow;
-		wxStaticBitmap* m_bitmap;
+		wxScrolledWindow* mainScrolledWindow;
+		wxStaticBitmap* bitmap;
 		wxStatusBar* statusBar;
 		
 		// Virtual event handlers, overide them in your derived class
@@ -66,7 +67,6 @@ class GUIFrame : public wxFrame
 		virtual void OnRotateLeft( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnRotateRight( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAbout( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnZoomFitAuto( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnZoomFit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnZoomIn( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnZoomOut( wxCommandEvent& event ) { event.Skip(); }
