@@ -43,7 +43,7 @@ void hpicviewFrame::SetFileIndex(const std::vector<boost::filesystem::path>::ite
     ptrdiff_t pos = std::distance(filenames_images.begin(), filenames_position);
     SetStatusText(wxString::Format(
         wxT("%u/%u"),
-        uint(pos+1),
-        uint(filenames_images.size())
+        (unsigned int)(pos+1),
+        (unsigned int)(filenames_images.size())
     ), STATUSBAR_COLUMN_INDEX);
 }
