@@ -7,12 +7,11 @@
  * License:
  **************************************************************/
 
-// TODO: try to open all images (get all available image handlers, query their extensions; check against /list/ of allowed extensions, ignore case in directory iterator; offer rotation only for JPEG)
-// TODO: fullscreen mode
-// TODO: scaling
+// TODO: add option "do not enlarge small pictures while fitting to screen"
+// TODO: only list primary extension in supported formats list
 // TODO: reset exif orientation flag after rotate
 // TODO: transform thumbnail, too
-// TODO: enable global exceptions
+// TODO: enable global exceptions, build against debug libraries
 // TODO: scan folder in background
 // TODO: build application against the same libjpeg as wxwidgets
 // TODO: depend on libjpeg as git submodule
@@ -88,9 +87,10 @@ std::set<wxString> GetImageExts()
 hpicviewFrame::hpicviewFrame(wxFrame *frame)
     : GUIFrame(frame), m_dirty(false), m_image_extensions(GetImageExts())
 {
-    SetIcon(wxIcon(icon_svg_xpm));
-    SetStatusText(_("No image."), STATUSBAR_COLUMN_MAIN);
-    SetStatusText(wxbuildinfo(short_f), STATUSBAR_COLUMN_INDEX);
+    this->SetIcon(wxIcon(icon_svg_xpm));
+    this->SetStatusText(_("No image."), STATUSBAR_COLUMN_MAIN);
+    this->SetStatusText(wxbuildinfo(short_f), STATUSBAR_COLUMN_INDEX);
+    // TODO: this->mainArea->Connect(wxEVT_SIZE, wxSizeEventHandler(hpicviewFrame::OnSizeMainArea));
 }
 
 hpicviewFrame::~hpicviewFrame()
@@ -215,3 +215,20 @@ void hpicviewFrame::SetConfiguration() {
     // this->menuViewZoomFitAuto->Checked(true);
 }
 
+void hpicviewFrame::OnToggleFullScreen(wxCommandEvent&) {
+    this->ShowFullScreen(!this->IsFullScreen());
+    // TODO: wait until resize is complete, then call this->FitAndDisplay();
+}
+
+void hpicviewFrame::OnSizeMainArea(wxSizeEvent& se) {
+    this->FitAndDisplay();
+    se.Skip();
+}
+
+void hpicviewFrame::OnEscape(wxCommandEvent& ce) {
+    if (this->IsFullScreen()) {
+        this->OnToggleFullScreen(ce);
+    } else {
+        this->OnQuit(ce);
+    }
+}

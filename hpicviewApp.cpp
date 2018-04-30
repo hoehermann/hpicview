@@ -70,7 +70,10 @@ void hpicviewApp::OnCharHook(wxKeyEvent& event) {
                 this->frame->OnZoomOut(ce);
             break;
             case WXK_ESCAPE:
-                this->frame->OnQuit(ce);
+                this->frame->OnEscape(ce);
+            break;
+            case WXK_RETURN:
+                this->frame->OnToggleFullScreen(ce);
             break;
             default:
                 //std::cerr << "Unbound key:" << event.GetKeyCode() << " / " << event.GetUnicodeKey() << std::endl;

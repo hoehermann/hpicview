@@ -25,13 +25,16 @@ class hpicviewFrame: public GUIFrame
         // TODO: introduce separate methods not being handlers?
         virtual void OnPrevious(wxCommandEvent& event);
         virtual void OnNext(wxCommandEvent& event);
-        virtual void OnQuit(wxCommandEvent& event);
         virtual void OnRotateLeft(wxCommandEvent& event);
         virtual void OnRotateRight(wxCommandEvent& event);
         virtual void OnZoomOut(wxCommandEvent& event);
         virtual void OnZoomIn(wxCommandEvent& event);
+        virtual void OnToggleFullScreen(wxCommandEvent& event);
+        virtual void OnEscape(wxCommandEvent& event);
         virtual void SetConfiguration();
     private:
+        virtual void OnQuit(wxCommandEvent& event);
+		virtual void OnSizeMainArea(wxSizeEvent& event);
         virtual void ZoomFit();
         virtual void FitAndDisplay();
         virtual void OnZoomFit(wxCommandEvent& event);
