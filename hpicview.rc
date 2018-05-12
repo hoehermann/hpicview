@@ -1,0 +1,2 @@
+//aaanicon ICON "sample.ico"
+#include "wx/msw/wx.rc"
