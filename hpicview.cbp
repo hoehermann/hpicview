@@ -31,14 +31,14 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-std=c++11" />
 			<Add option="-Wall" />
+			<Add option="-std=c++11" />
 			<Add option="`wx-config --cflags`" />
 			<Add option="-x c++" />
-			<Add option='-DVERSION=\\&quot;`git describe --abbrev=7 --dirty --always --tags`\\&quot;' />
 			<Add directory="extern/libjpeg" />
 		</Compiler>
 		<Linker>
+			<Add option="-s" />
 			<Add option="`wx-config --libs`" />
 			<Add option="`pkg-config --libs libjpeg`" />
 			<Add option="extern/libjpeg/transupp.o" />
@@ -50,6 +50,9 @@
 		<Unit filename="GUIFrame.h" />
 		<Unit filename="WxWizFrame.fbp" />
 		<Unit filename="directory_iteration.cpp" />
+		<Unit filename="hpicview.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Unit filename="hpicviewApp.cpp" />
 		<Unit filename="hpicviewApp.h" />
 		<Unit filename="hpicviewMain.cpp" />
