@@ -34,7 +34,7 @@ class hpicviewFrame: public GUIFrame
         virtual void SetConfiguration();
     private:
         virtual void OnQuit(wxCommandEvent& event);
-		virtual void OnSizeMainArea(wxSizeEvent& event);
+        virtual void OnSize(wxSizeEvent& event);
         virtual void ZoomFit();
         virtual void FitAndDisplay();
         virtual void OnZoomFit(wxCommandEvent& event);

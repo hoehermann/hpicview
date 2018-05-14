@@ -62,6 +62,7 @@ class GUIFrame : public wxFrame
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnActivateApp( wxActivateEvent& event ) { event.Skip(); }
 		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
+		virtual void OnSize( wxSizeEvent& event ) { event.Skip(); }
 		virtual void OnOpen( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnQuit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnRotateLeft( wxCommandEvent& event ) { event.Skip(); }
@@ -76,7 +77,7 @@ class GUIFrame : public wxFrame
 	
 	public:
 		
-		GUIFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("hpicview"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 670,250 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		GUIFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("hpicview"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 670,560 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~GUIFrame();
 	

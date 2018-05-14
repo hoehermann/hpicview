@@ -4,10 +4,11 @@
  * Author:    Hermann Höhne (hermann@hehoe.de)
  * Created:   2018-03-31
  * Copyright: Hermann Höhne (www.hehoe.de)
- * License:
+ * License:   GNU GPLv3
  **************************************************************/
 
 // TODO: add option "do not enlarge small pictures while fitting to screen"
+// TODO: add option "zoom to fitting power of 2 (fit exactly otherwise)"
 // TODO: only list primary extension in supported formats list
 // TODO: reset exif orientation flag after rotate
 // TODO: transform thumbnail, too
@@ -90,7 +91,6 @@ hpicviewFrame::hpicviewFrame(wxFrame *frame)
     this->SetIcon(wxIcon(icon_svg_xpm));
     this->SetStatusText(_("No image."), STATUSBAR_COLUMN_MAIN);
     this->SetStatusText(wxbuildinfo(short_f), STATUSBAR_COLUMN_INDEX);
-    // TODO: this->mainArea->Connect(wxEVT_SIZE, wxSizeEventHandler(hpicviewFrame::OnSizeMainArea));
 }
 
 hpicviewFrame::~hpicviewFrame()
@@ -217,10 +217,9 @@ void hpicviewFrame::SetConfiguration() {
 
 void hpicviewFrame::OnToggleFullScreen(wxCommandEvent&) {
     this->ShowFullScreen(!this->IsFullScreen());
-    // TODO: wait until resize is complete, then call this->FitAndDisplay();
 }
 
-void hpicviewFrame::OnSizeMainArea(wxSizeEvent& se) {
+void hpicviewFrame::OnSize(wxSizeEvent& se) {
     this->FitAndDisplay();
     se.Skip();
 }

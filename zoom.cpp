@@ -34,7 +34,7 @@ void hpicviewFrame::ZoomFit() {
     }
     float image_width = m_image.GetWidth();
     float image_height = m_image.GetHeight();
-    const wxSize & client_size = this->mainScrolledWindow->GetClientSize();
+    const wxSize & client_size = this->GetClientSize(); // this uses the main frame's client size instead of mainScrolledWindow's client size (relies on scrollbars being hidden automatically)
     float client_width = client_size.GetWidth();
     float client_height = client_size.GetHeight();
     float smaller_factor =

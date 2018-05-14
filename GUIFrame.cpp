@@ -117,6 +117,7 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	// Connect Events
 	this->Connect( wxEVT_ACTIVATE_APP, wxActivateEventHandler( GUIFrame::OnActivateApp ) );
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( GUIFrame::OnClose ) );
+	this->Connect( wxEVT_SIZE, wxSizeEventHandler( GUIFrame::OnSize ) );
 	this->Connect( menuFileOpen->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnOpen ) );
 	this->Connect( menuFileQuit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnQuit ) );
 	this->Connect( menuImageRotateLeft->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnRotateLeft ) );
@@ -138,6 +139,7 @@ GUIFrame::~GUIFrame()
 	// Disconnect Events
 	this->Disconnect( wxEVT_ACTIVATE_APP, wxActivateEventHandler( GUIFrame::OnActivateApp ) );
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( GUIFrame::OnClose ) );
+	this->Disconnect( wxEVT_SIZE, wxSizeEventHandler( GUIFrame::OnSize ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnOpen ) );
 	this->Disconnect( idMenuQuit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnQuit ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnRotateLeft ) );
