@@ -7,15 +7,15 @@
  * License:   GNU GPLv3
  **************************************************************/
 
-// TODO: add option "do not enlarge small pictures while fitting to screen"
+// TODO: add option "do not enlarge small pictures while fitting to view"
 // TODO: add option "zoom to fitting power of 2 (fit exactly otherwise)"
+// TODO: add option of when to use which scaling algorithm (nearest neighbor while fitting to power of 2, bilinear/bicubic otherwise,…)
+// TODO: add option for chosing background colour
 // TODO: only list primary extension in supported formats list
 // TODO: reset exif orientation flag after rotate
 // TODO: transform thumbnail, too
 // TODO: enable global exceptions, build against debug libraries
 // TODO: scan folder in background
-// TODO: build application against the same libjpeg as wxwidgets
-// TODO: depend on libjpeg as git submodule
 
 #include "hpicviewMain.h"
 
@@ -212,6 +212,7 @@ void hpicviewFrame::SetImageData(const std::string & imagedata) {
 }
 
 void hpicviewFrame::SetConfiguration() {
+    // TODO: read/write configuration from/to file
     // this->menuViewZoomFitAuto->Checked(true);
 }
 

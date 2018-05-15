@@ -4,7 +4,7 @@
  * Author:    Hermann Höhne (hermann@hehoe.de)
  * Created:   2018-03-31
  * Copyright: Hermann Höhne (www.hehoe.de)
- * License:
+ * License:   GNU GPLv3
  **************************************************************/
 
 #include "hpicviewApp.h"

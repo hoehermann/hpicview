@@ -4,7 +4,7 @@
  * Author:    Hermann Höhne (hermann@hehoe.de)
  * Created:   2018-03-31
  * Copyright: Hermann Höhne (www.hehoe.de)
- * License:
+ * License:   GNU GPLv3
  **************************************************************/
 
 #pragma once
@@ -45,8 +45,8 @@ class hpicviewFrame: public GUIFrame
         void SetImageData(const std::string & imagedata);
         void WriteIfDirty();
         void Write(const wxString & filename); // TODO: switch to boost::filesystem::path
-        void ScaleImage(int view_zoom_exponent);
-        void SetViewZoomExponent(int view_zoom_exponent);
+        void ScaleImage(float view_zoom_exponent, wxImageResizeQuality quality);
+        void SetViewZoomExponent(float view_zoom_exponent);
 
         // these represent the currently loaded image
         boost::filesystem::path m_filename;
