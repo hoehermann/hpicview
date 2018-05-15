@@ -59,15 +59,17 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 #include <iostream>
 
 // based on wxString wxImage::GetImageExtWildcard() from src/common/image.cpp
-std::set<wxString> GetImageExts()
+std::set<wxString> GetImageExts(bool include_alternatives = true)
 {
     std::set<wxString> exts;
     wxList& Handlers = wxImage::GetHandlers();
     for (const auto & o : Handlers) {
         wxImageHandler* Handler = (wxImageHandler*)o;
         exts.insert(wxString("."+Handler->GetExtension()));
-        for (const auto & e : Handler->GetAltExtensions()) {
-            exts.insert(wxString("."+e));
+        if (include_alternatives) {
+            for (const auto & e : Handler->GetAltExtensions()) {
+                exts.insert(wxString("."+e));
+            }
         }
     }
     return exts;
@@ -122,7 +124,7 @@ void hpicviewFrame::OnAbout(wxCommandEvent&)
     msg << "hpicview Version " << VERSION << "\n\n";
     msg << "Built with " << wxbuildinfo(long_f) << "\n\n";
     msg << "Contains icons by fontawesome.\n\n";
-    msg << "Built-in image format extensions:\n" << GetImageExtWildcard(m_image_extensions);
+    msg << "Default extensions of built-in image formats:\n" << GetImageExtWildcard(GetImageExts(false));
     wxMessageBox(msg, _("About hpicview"));
 }
 
