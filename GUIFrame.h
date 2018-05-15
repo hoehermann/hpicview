@@ -44,6 +44,7 @@ class GUIFrame : public wxFrame
 		wxMenu* m_menuImage;
 		wxMenu* menuView;
 		wxMenuItem* menuViewZoomFitAuto;
+		wxMenuItem* menuViewUpscaleSmall;
 		wxMenu* menuHelp;
 		wxToolBar* toolBar;
 		wxToolBarToolBase* toolOpen; 

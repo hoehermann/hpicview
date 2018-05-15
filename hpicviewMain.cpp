@@ -7,7 +7,6 @@
  * License:   GNU GPLv3
  **************************************************************/
 
-// TODO: add option "do not enlarge small pictures while fitting to view"
 // TODO: add option "zoom to fitting power of 2 (fit exactly otherwise)"
 // TODO: add option of when to use which scaling algorithm (nearest neighbor while fitting to power of 2, bilinear/bicubic otherwise,…)
 // TODO: add option for chosing background colour

@@ -52,6 +52,9 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	menuView->Append( menuViewZoomFitAuto );
 	menuViewZoomFitAuto->Check( true );
 	
+	menuViewUpscaleSmall = new wxMenuItem( menuView, wxID_ANY, wxString( wxT("Enlarge small images") ) , wxT("Small images are not displayed larger than they are."), wxITEM_CHECK );
+	menuView->Append( menuViewUpscaleSmall );
+	
 	menubar->Append( menuView, wxT("View") ); 
 	
 	menuHelp = new wxMenu();

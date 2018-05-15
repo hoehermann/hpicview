@@ -41,6 +41,10 @@ void hpicviewFrame::ZoomFit() {
         std::min(client_height/image_height, client_width/image_width);
     float fit_zoom_exponent = std::log2(smaller_factor);
 
+    if (!this->menuViewUpscaleSmall->IsChecked() && fit_zoom_exponent > 0.0f) {
+        fit_zoom_exponent = 0.0f;
+    }
+
     wxImageResizeQuality quality = wxIMAGE_QUALITY_BILINEAR;
     bool floor = !this->IsFullScreen();
     if (floor) {
