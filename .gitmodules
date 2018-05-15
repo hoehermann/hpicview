@@ -1,0 +1,4 @@
+[submodule "extern/jpeg"]
+	path = extern/jpeg
+	url = https://github.com/wxWidgets/libjpeg-turbo.git
+	branch = wx

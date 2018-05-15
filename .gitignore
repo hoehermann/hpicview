@@ -3,6 +3,5 @@ resources/*.svg.png
 *.layout
 *.user
 build/
-extern/
 hpicview
 *.o
