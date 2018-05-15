@@ -11,9 +11,9 @@ TRANSUPP = $(JPEG)/transupp.o
 CPPFLAGS += -DVERSION=\"`git describe --abbrev=7 --dirty --always --tags`\"
 CPPFLAGS += `wx-config --cppflags`
 CPPFLAGS += -I$(JPEG)
-LIBS += `wx-config --libs`
 LIBS += $(TRANSUPP)
 LIBS += -L$(JPEG) -ljpeg 
+LIBS += `wx-config --libs`
 LIBS += -lboost_system -lboost_filesystem
 
 all: $(PROG)

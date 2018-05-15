@@ -81,6 +81,8 @@ hpicviewFrame::hpicviewFrame(wxFrame *frame)
     : GUIFrame(frame), m_dirty(false), m_image_extensions(GetImageExts())
 {
     this->SetIcon(wxIcon(icon_svg_xpm));
+    const int status_widths[] = {-70,-20,-10};
+    this->SetStatusWidths(3, status_widths);
     this->SetStatusText(_("No image."), STATUSBAR_COLUMN_MAIN);
     this->SetStatusText(wxbuildinfo(short_f), STATUSBAR_COLUMN_INDEX);
 }
@@ -164,7 +166,17 @@ void hpicviewFrame::OpenFile(const wxString & filename) {
     this->m_filename = path;
 
     SetTitle(wxString::Format(wxT("hpicview - %s"),path.filename().c_str()));
-    SetStatusText(wxString::Format(wxT("Loaded %s"),path.filename().c_str()), STATUSBAR_COLUMN_MAIN);
+    unsigned long int image_size_memory_kB = this->m_image.GetWidth()*this->m_image.GetHeight()*(this->m_image.HasAlpha()?4:3)/1024; /* according to https://forums.wxwidgets.org/viewtopic.php?t=42790 */
+    unsigned long int image_size_disk_kB = this->m_imagedata.size()/1024;
+    SetStatusText(
+        wxString::Format(
+            wxT("Loaded %s (%lu kB in memory, %lu kB on disk)"),
+            path.filename().c_str(),
+            image_size_memory_kB,
+            image_size_disk_kB
+        ),
+        STATUSBAR_COLUMN_MAIN
+    );
     if (directory_has_changed) {
         std::vector<boost::filesystem::path>::iterator p = UpdateDirectoryListing(path);
         SetFileIndex(p);
