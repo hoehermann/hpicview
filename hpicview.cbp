@@ -43,6 +43,7 @@
 			<Add option="extern/jpeg/transupp.o" />
 			<Add library="boost_system" />
 			<Add library="boost_filesystem" />
+			<Add library="jpeg" />
 			<Add directory="extern/jpeg" />
 		</Linker>
 		<Unit filename="GUIFrame.cpp" />

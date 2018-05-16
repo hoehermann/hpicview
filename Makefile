@@ -7,12 +7,12 @@ PROG = hpicview
 
 JPEG = extern/jpeg
 TRANSUPP = $(JPEG)/transupp.o
+CDJPEG = $(JPEG)/cdjpeg.h
 
 CPPFLAGS += -DVERSION=\"`git describe --abbrev=7 --dirty --always --tags`\"
 CPPFLAGS += `wx-config --cppflags`
 CPPFLAGS += -I$(JPEG)
-LIBS += $(TRANSUPP)
-LIBS += -L$(JPEG) -ljpeg 
+LIBS += -ljpeg
 LIBS += `wx-config --libs`
 LIBS += -lboost_system -lboost_filesystem
 
@@ -26,8 +26,10 @@ run: $(PROG)
 try: $(PROG)
 	./$(PROG) test_xga.jpg
 
+jpegtran.o: $(CDJPEG)
+
 $(PROG): .depend $(OBJS) $(TRANSUPP)
-	$(CC) $(CPPFLAGS) -o $(PROG) $(OBJS) $(LIBS)
+	$(CC) $(CPPFLAGS) -o $(PROG) $(OBJS) $(LIBS) $(TRANSUPP) 
 
 clean: 
 	rm -f $(PROG)
@@ -44,13 +46,23 @@ clean:
 # Respect header file dependencies
 include .depend
 
-# automatically build libjpeg
-
-$(JPEG)/Makefile:
+# checkout libjpeg from git submodule
+# libjpeg version must match the one used by wxWidgets
+$(JPEG)/configure:
+  # TODO: make this rely on libjpeg as actually used by wxWidgets (the variant shown ehere assumes that wxWidgets is dynamically linked against the libjpeg as chosen by the current system)
+	echo "#include <iostream>\n#include <jpeglib.h>\nint main(int, char **) { std::cout << JPEG_LIB_VERSION << std::endl; return 0; }" > jlv.cpp 
+	$(CC) $(CPPFLAGS) -o jlv jlv.cpp $(LIBS)
+	(cd $(JPEG) && git checkout $$(git tag | grep jpeg-$$(../../jlv | grep -o ^.) | sort -r | head -n 1) -- '*')
+	rm jlv jlv.cpp
+	
+$(JPEG)/Makefile: $(JPEG)/configure
 	( cd $(JPEG) && ./configure )
 
+$(CDJPEG): $(JPEG)/Makefile
+
+# automatically build transupp.o in libjpeg
 $(TRANSUPP): $(JPEG)/Makefile
-	$(MAKE) -C $(JPEG)
+	$(MAKE) -C $(JPEG) transupp.o
 	
-cleanall: clean
+cleanall: clean $(JPEG)/Makefile
 	$(MAKE) -C $(JPEG) clean
