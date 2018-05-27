@@ -1,13 +1,13 @@
 CC = g++
 CPPFLAGS = -g -W -Wall -Werror -Wextra --std=c++11
-SRCS = $(shell find . -type f -name '*.cpp')
-HEDS = $(shell find . -type f -name '*.hpp')
+SRCS = directory_iteration.cpp GUIFrame.cpp hpicviewApp.cpp hpicviewMain.cpp jpegtran.cpp rotate.cpp zoom.cpp # formerly $(shell find . -type f -name '*.cpp')
 OBJS = $(SRCS:%.cpp=%.o)
 PROG = hpicview
 
 JPEG = extern/libjpeg
 TRANSUPP = $(JPEG)/transupp.o
 CDJPEG = $(JPEG)/cdjpeg.h
+include libjpeg.version
 
 CPPFLAGS += -DVERSION=\"`git describe --abbrev=7 --dirty --always --tags`\"
 CPPFLAGS += `wx-config --cppflags`
@@ -22,13 +22,13 @@ all: $(PROG)
 
 run: $(PROG)
 	./$(PROG)
-	
+
 try: $(PROG)
-	./$(PROG) test_xga.jpg
+	./$(PROG) test.jpg
 
 jpegtran.o: $(CDJPEG)
 
-$(PROG): .depend $(OBJS) $(TRANSUPP)
+$(PROG): $(OBJS) $(TRANSUPP)
 	$(CC) $(CPPFLAGS) -o $(PROG) $(OBJS) $(LIBS) $(TRANSUPP) 
 
 clean: 
@@ -39,24 +39,15 @@ clean:
 %.o : %.cpp
 	$(CC) $(CPPFLAGS) -c $< -o $@
 
-# Compute header file dependencies 
-.depend : $(SRCS)
-	$(CC) $(CPPFLAGS) -MM $^ > .depend
-
-# Respect header file dependencies
-include .depend
-
 # checkout libjpeg from git submodule
-# libjpeg version must match the one used by wxWidgets
 $(JPEG)/configure:
-	git submodule init
-	# TODO: make this rely on libjpeg as actually used by wxWidgets (the variant shown here assumes that wxWidgets is dynamically linked against the libjpeg as chosen by the current system)
-	echo "#include <iostream>\n#include <jpeglib.h>\nint main(int, char **) { std::cout << JPEG_LIB_VERSION << std::endl; return 0; }" > jlv.cpp 
-	$(CC) $(CPPFLAGS) -o jlv jlv.cpp $(LIBS)
-	(cd $(JPEG) && git checkout $$(git tag | grep jpeg-$$(../../jlv | grep -o ^.) | sort -r | head -n 1) -- '*')
-	rm jlv jlv.cpp
+	git submodule update --init
+	(cd $(JPEG) && git checkout $$(git tag | grep jpeg-$(JPEG_LIB_VERSION_MAJOR) | sort -r | head -n 1) -- '*')
 	# apply patch so transupp.c resets the orientation tag
 	(cd $(JPEG) && git apply ../libjpeg-reset-orientation-tag.patch)
+
+jpeglib.version:
+	echo "Create a file jpeglib.version containing a line JPEG_LIB_VERSION_MAJOR = x where x is the major version your wxWidgets build is built against."
 
 $(JPEG)/Makefile: $(JPEG)/configure
 	( cd $(JPEG) && ./configure )
