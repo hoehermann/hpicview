@@ -49,6 +49,7 @@
 		<Unit filename="GUIFrame.h" />
 		<Unit filename="WxWizFrame.fbp" />
 		<Unit filename="directory_iteration.cpp" />
+		<Unit filename="droptarget.hpp" />
 		<Unit filename="hpicview.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>

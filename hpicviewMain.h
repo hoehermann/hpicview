@@ -41,6 +41,7 @@ class hpicviewFrame: public GUIFrame
         virtual void OnClose(wxCloseEvent& event);
         virtual void OnAbout(wxCommandEvent& event);
         virtual void OnOpen(wxCommandEvent& event);
+        bool OnDropFile(wxCoord, wxCoord, const wxArrayString& paths);
 
         void SetImageData(const std::string & imagedata);
         void WriteIfDirty();

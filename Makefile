@@ -46,8 +46,9 @@ $(JPEG)/configure:
 	# apply patch so transupp.c resets the orientation tag
 	(cd $(JPEG) && git apply ../libjpeg-reset-orientation-tag.patch)
 
-jpeglib.version:
+libjpeg.version:
 	echo "Create a file jpeglib.version containing a line JPEG_LIB_VERSION_MAJOR = x where x is the major version your wxWidgets build is built against."
+	false
 
 $(JPEG)/Makefile: $(JPEG)/configure
 	( cd $(JPEG) && ./configure )

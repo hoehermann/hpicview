@@ -8,6 +8,7 @@
  **************************************************************/
 
 #include "hpicviewMain.h"
+#include "droptarget.hpp"
 
 #include <fstream>
 #include <cerrno>
@@ -85,6 +86,9 @@ hpicviewFrame::hpicviewFrame(wxFrame *frame)
     this->SetStatusWidths(3, status_widths);
     this->SetStatusText(_("No image."), STATUSBAR_COLUMN_MAIN);
     this->SetStatusText(wxbuildinfo(short_f), STATUSBAR_COLUMN_INDEX);
+    this->SetDropTarget(
+        new FileDropTarget<hpicviewFrame>(&hpicviewFrame::OnDropFile, this)
+    );
 }
 
 hpicviewFrame::~hpicviewFrame()
@@ -235,4 +239,12 @@ void hpicviewFrame::OnEscape(wxCommandEvent& ce) {
     } else {
         this->OnQuit(ce);
     }
+}
+
+bool hpicviewFrame::OnDropFile(wxCoord, wxCoord, const wxArrayString& paths) {
+    if (paths.size() > 0) {
+        this->OpenFile(paths[0]);
+        return true;
+    }
+    return false;
 }
