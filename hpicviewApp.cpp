@@ -21,7 +21,6 @@ bool hpicviewApp::OnInit() {
 
     this->frame->Show();
 
-    // TODO: use wxCmdLineParser, treat first positional argument as filename
     if (this->argc == 2) {
         this->frame->OpenFile(this->argv[1]);
     }
