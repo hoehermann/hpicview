@@ -55,7 +55,9 @@ $(JPEG)/configure:
 	$(CC) $(CPPFLAGS) -o jlv jlv.cpp $(LIBS)
 	(cd $(JPEG) && git checkout $$(git tag | grep jpeg-$$(../../jlv | grep -o ^.) | sort -r | head -n 1) -- '*')
 	rm jlv jlv.cpp
-	
+	# apply patch so transupp.c resets the orientation tag
+	(cd $(JPEG) && git apply ../libjpeg-reset-orientation-tag.patch)
+
 $(JPEG)/Makefile: $(JPEG)/configure
 	( cd $(JPEG) && ./configure )
 

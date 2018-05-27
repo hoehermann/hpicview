@@ -1,0 +1,52 @@
+diff --git a/transupp.c b/transupp.c
+index 016f383..030e229 100644
+--- a/transupp.c
++++ b/transupp.c
+@@ -1214,6 +1214,47 @@ adjust_exif_parameters (JOCTET FAR * data, unsigned int length,
+   if (number_of_tags == 0) return;
+   firstoffset += 2;
+ 
++  /* Search and set Orientation Tag in IFD0 */
++  unsigned int n = number_of_tags;
++  offset = firstoffset;
++  for (;;) {
++    if (offset > length - 12) return; /* check end of data segment */
++    /* Get Tag number */
++    if (is_motorola) {
++      tagnum = GETJOCTET(data[offset]);
++      tagnum <<= 8;
++      tagnum += GETJOCTET(data[offset+1]);
++    } else {
++      tagnum = GETJOCTET(data[offset+1]);
++      tagnum <<= 8;
++      tagnum += GETJOCTET(data[offset]);
++    }
++    if (tagnum == 0x0112) { /* Orientation Tag */
++      if (is_motorola) {
++        data[offset+2] = 0; /* Format = unsigned short (2 octets) */
++        data[offset+3] = 3;
++        data[offset+4] = 0; /* Number Of Components = 1 */
++        data[offset+5] = 0;
++        data[offset+6] = 0;
++        data[offset+7] = 1;
++        data[offset+8] = 0; /* Orientation 1: Horizontal (normal) */
++        data[offset+9] = 1;
++      } else {
++        data[offset+2] = 3; /* Format = unsigned short (2 octets) */
++        data[offset+3] = 0;
++        data[offset+4] = 1; /* Number Of Components = 1 */
++        data[offset+5] = 0;
++        data[offset+6] = 0;
++        data[offset+7] = 0;
++        data[offset+8] = 1; /* Orientation 1: Horizontal (normal) */
++        data[offset+9] = 0;
++      }
++      break;
++    }
++    if (--n == 0) return;
++    offset += 12;
++  }
++
+   /* Search for ExifSubIFD offset Tag in IFD0 */
+   for (;;) {
+     if (firstoffset > length - 12) return; /* check end of data segment */
