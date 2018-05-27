@@ -81,21 +81,10 @@ std::string transform(std::string input, JXFORM_CODE transform) {
     return output;
 }
 
-JPEGtran::JPEGtran()
-{
-    //ctor
-}
-
 std::string JPEGtran::rotate_left(std::string input) {
     return transform(input, JXFORM_ROT_270);
 }
 
 std::string JPEGtran::rotate_right(std::string input) {
     return transform(input, JXFORM_ROT_90);
-
-}
-
-
-JPEGtran::~JPEGtran() {
-    //dtor
 }
