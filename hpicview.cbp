@@ -35,16 +35,15 @@
 			<Add option="-std=c++11" />
 			<Add option="`wx-config --cflags`" />
 			<Add option="-x c++" />
-			<Add directory="extern/jpeg" />
+			<Add directory="extern/libjpeg" />
 		</Compiler>
 		<Linker>
 			<Add option="-s" />
 			<Add option="`wx-config --libs`" />
-			<Add option="extern/jpeg/transupp.o" />
+			<Add option="extern/libjpeg/transupp.o" />
 			<Add library="boost_system" />
 			<Add library="boost_filesystem" />
 			<Add library="jpeg" />
-			<Add directory="extern/jpeg" />
 		</Linker>
 		<Unit filename="GUIFrame.cpp" />
 		<Unit filename="GUIFrame.h" />

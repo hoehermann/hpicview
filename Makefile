@@ -5,7 +5,7 @@ HEDS = $(shell find . -type f -name '*.hpp')
 OBJS = $(SRCS:%.cpp=%.o)
 PROG = hpicview
 
-JPEG = extern/jpeg
+JPEG = extern/libjpeg
 TRANSUPP = $(JPEG)/transupp.o
 CDJPEG = $(JPEG)/cdjpeg.h
 
@@ -49,7 +49,8 @@ include .depend
 # checkout libjpeg from git submodule
 # libjpeg version must match the one used by wxWidgets
 $(JPEG)/configure:
-  # TODO: make this rely on libjpeg as actually used by wxWidgets (the variant shown ehere assumes that wxWidgets is dynamically linked against the libjpeg as chosen by the current system)
+	git submodule init
+	# TODO: make this rely on libjpeg as actually used by wxWidgets (the variant shown here assumes that wxWidgets is dynamically linked against the libjpeg as chosen by the current system)
 	echo "#include <iostream>\n#include <jpeglib.h>\nint main(int, char **) { std::cout << JPEG_LIB_VERSION << std::endl; return 0; }" > jlv.cpp 
 	$(CC) $(CPPFLAGS) -o jlv jlv.cpp $(LIBS)
 	(cd $(JPEG) && git checkout $$(git tag | grep jpeg-$$(../../jlv | grep -o ^.) | sort -r | head -n 1) -- '*')
@@ -61,7 +62,7 @@ $(JPEG)/Makefile: $(JPEG)/configure
 $(CDJPEG): $(JPEG)/Makefile
 
 # automatically build transupp.o in libjpeg
-$(TRANSUPP): $(JPEG)/Makefile
+$(TRANSUPP): $(JPEG)/Makefile $(JPEG)/transupp.c
 	$(MAKE) -C $(JPEG) transupp.o
 	
 cleanall: clean $(JPEG)/Makefile
