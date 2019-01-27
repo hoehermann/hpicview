@@ -18,7 +18,7 @@ LIBS += -lboost_system -lboost_filesystem
 
 all: $(PROG)
 
-.PHONY: clean all run test try
+.PHONY: clean all cleanall run test try
 
 run: $(PROG)
 	./$(PROG)
@@ -61,3 +61,7 @@ $(TRANSUPP): $(JPEG)/Makefile $(JPEG)/transupp.c
 	
 cleanall: clean $(JPEG)/Makefile
 	$(MAKE) -C $(JPEG) clean
+
+deconfigure:
+	rm libjpeg.version
+	rm -f $(JPEG)/configure
