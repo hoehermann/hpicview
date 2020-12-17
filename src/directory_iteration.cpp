@@ -4,7 +4,7 @@ void hpicviewFrame::OnPrevious(wxCommandEvent&) {
     if (!filenames_images.empty()) {
         auto it = std::prev(filenames_position);
         if (it != filenames_images.begin()-1) {
-            OpenFile(wxString(it->c_str()));
+            OpenFile(std_string_to_wxString(it->string()));
             SetFileIndex(it);
         }
     }
@@ -14,7 +14,7 @@ void hpicviewFrame::OnNext(wxCommandEvent&) {
     if (!filenames_images.empty()) {
         auto it = std::next(filenames_position);
         if (it != filenames_images.end()) {
-            OpenFile(wxString(it->c_str()));
+            OpenFile(std_string_to_wxString(it->string()));
             SetFileIndex(it);
         }
     }
@@ -31,7 +31,7 @@ hpicviewFrame::UpdateDirectoryListing(
         directory_iterator, {},
         std::back_inserter(filenames_images),
         [this](const boost::filesystem::path & p){
-            return this->m_image_extensions.count(wxString(p.extension().c_str()).Lower());
+            return this->m_image_extensions.count(std_string_to_wxString(p.extension().string()).Lower());
         }
     );
     std::sort(filenames_images.begin(), filenames_images.end());

@@ -16,6 +16,9 @@
 #include <boost/filesystem.hpp>
 #include <set>
 
+
+wxString std_string_to_wxString(const std::string & stdstring);
+
 class hpicviewFrame: public GUIFrame
 {
     public:

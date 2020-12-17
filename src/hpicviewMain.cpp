@@ -13,11 +13,32 @@
 #include <fstream>
 #include <cerrno>
 
+std::string wxString_to_std_string(const wxString & wxstring) {
+    // TODO: look for a sane solution
+    // maybe see https://stackoverflow.com/questions/28147826/converting-stl-unicode-string-to-wxstring-gives-empty-string
+    // I saw https://www.wxwidgets.org/blog/2020/08/implicit_explicit_encoding/. Oh no.
+    // https://docs.wxwidgets.org/trunk/classwx_string.html helped
+    #if defined(__WXMSW__)
+    return wxstring.ToStdString(); // works on Windows
+    #else
+    return std::string(wxstring.ToUTF8()); // works on Linux
+    #endif
+}
+
+wxString std_string_to_wxString(const std::string & stdstring) {
+    // TODO: see wxString_to_std_string
+    #if defined(__WXMSW__)
+    return wxString(stdstring);
+    #else
+    return wxString::FromUTF8(static_cast<const char *>(stdstring.c_str()), static_cast<size_t>(stdstring.size())); // works on Linux
+    #endif
+}
+
 std::string get_file_contents(const std::string & filename)
 {
     /* from https://insanecoding.blogspot.de/2011/11/how-to-read-in-file-in-c.html */
     std::ifstream in(filename, std::ios::in | std::ios::binary);
-    if (in) {
+    if (in.good()) {
         std::string contents;
         in.seekg(0, std::ios::end);
         contents.resize(in.tellg());
@@ -25,8 +46,9 @@ std::string get_file_contents(const std::string & filename)
         in.read(&contents[0], contents.size());
         in.close();
         return(contents);
+    } else {
+        throw std::runtime_error("Could not load file.");
     }
-    throw(errno);
 }
 
 enum wxbuildinfoformat {
@@ -50,6 +72,8 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 #if wxUSE_UNICODE
         wxbuild << _T("-Unicode build");
 #else
+    #error This assumes a UTF-8 enabled system. Must build with unicode support.
+    // String conversions heavily rely on UTF8
         wxbuild << _T("-ANSI build");
 #endif // wxUSE_UNICODE
     }
@@ -57,7 +81,6 @@ wxString wxbuildinfo(wxbuildinfoformat format)
     return wxbuild;
 }
 
-#include <iostream>
 
 // based on wxString wxImage::GetImageExtWildcard() from src/common/image.cpp
 std::set<wxString> GetImageExts(bool include_alternatives = true)
@@ -159,13 +182,15 @@ void hpicviewFrame::OnOpen(wxCommandEvent&) {
     }
 }
 
+#include <iostream>
+
 void hpicviewFrame::OpenFile(const wxString & filename) {
-    this->m_imagedata = get_file_contents(std::string(filename));
+    std::string stdstring_filename(wxString_to_std_string(filename));
+    this->m_imagedata = get_file_contents(stdstring_filename);
     SetImageData(m_imagedata);
-    boost::filesystem::path path(filename);
-    path = boost::filesystem::canonical(path);
-    this->m_modification_date =
-        boost::filesystem::last_write_time(path);
+    boost::filesystem::path path(stdstring_filename);
+    //path = boost::filesystem::canonical(path); // TODO: check how to get parent in case of file name supplied only
+    this->m_modification_date = boost::filesystem::last_write_time(path);
     bool directory_has_changed = this->m_filename.empty() || this->m_filename.parent_path() != path.parent_path();
     this->m_filename = path;
 
@@ -175,7 +200,7 @@ void hpicviewFrame::OpenFile(const wxString & filename) {
     SetStatusText(
         wxString::Format(
             wxT("Loaded %s (%lu kB in memory, %lu kB on disk)"),
-            path.filename().c_str(),
+            std_string_to_wxString(path.filename().string()),
             image_size_memory_kB,
             image_size_disk_kB
         ),
@@ -203,7 +228,7 @@ void hpicviewFrame::Write(const wxString & filename) {
         throw std::runtime_error("Tried to write empty file. This should never happen.");
     }
     this->m_dirty = false;
-    auto f = std::fstream(filename, std::ios::out | std::ios::binary);
+    auto f = std::fstream(wxString_to_std_string(filename), std::ios::out | std::ios::binary);
     f.write(this->m_imagedata.c_str(), this->m_imagedata.size());
     f.close();
 }
