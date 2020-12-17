@@ -7,7 +7,7 @@
  * License:   GNU GPLv3
  **************************************************************/
 
-#include "hpicviewApp.h"
+#include "hpicviewApp.hpp"
 
 IMPLEMENT_APP(hpicviewApp);
 

@@ -1,8 +1,8 @@
-#include "jpegtran.h"
+#include "jpegtran.hpp"
 
-#include <cdjpeg.h>
+#include "cdjpeg.h"
 extern "C" { // TODO: this looks hackish. when building libjpeg, transupp.c is compiled with gcc. how to do this properly? force g++ for all files?
-#include <transupp.h>
+#include "transupp.h"
 }
 #include <stdexcept>
 

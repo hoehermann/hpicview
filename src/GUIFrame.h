@@ -1,12 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Feb 16 2016)
+// C++ code generated with wxFormBuilder (version Oct 26 2018)
 // http://www.wxformbuilder.org/
 //
-// PLEASE DO "NOT" EDIT THIS FILE!
+// PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
-#ifndef __GUIFRAME_H__
-#define __GUIFRAME_H__
+#pragma once
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
@@ -34,10 +33,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 /// Class GUIFrame
 ///////////////////////////////////////////////////////////////////////////////
-class GUIFrame : public wxFrame 
+class GUIFrame : public wxFrame
 {
 	private:
-	
+
 	protected:
 		wxMenuBar* menubar;
 		wxMenu* menuFile;
@@ -47,19 +46,19 @@ class GUIFrame : public wxFrame
 		wxMenuItem* menuViewUpscaleSmall;
 		wxMenu* menuHelp;
 		wxToolBar* toolBar;
-		wxToolBarToolBase* toolOpen; 
-		wxToolBarToolBase* toolRotateLeft; 
-		wxToolBarToolBase* toolRotateRight; 
-		wxToolBarToolBase* toolZoomFit; 
-		wxToolBarToolBase* toolZoomIn; 
-		wxToolBarToolBase* toolZoomOut; 
-		wxToolBarToolBase* toolPrevious; 
-		wxToolBarToolBase* toolNext; 
-		wxToolBarToolBase* toolAbout; 
+		wxToolBarToolBase* toolOpen;
+		wxToolBarToolBase* toolRotateLeft;
+		wxToolBarToolBase* toolRotateRight;
+		wxToolBarToolBase* toolZoomFit;
+		wxToolBarToolBase* toolZoomIn;
+		wxToolBarToolBase* toolZoomOut;
+		wxToolBarToolBase* toolPrevious;
+		wxToolBarToolBase* toolNext;
+		wxToolBarToolBase* toolAbout;
 		wxScrolledWindow* mainScrolledWindow;
 		wxStaticBitmap* bitmap;
 		wxStatusBar* statusBar;
-		
+
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnActivateApp( wxActivateEvent& event ) { event.Skip(); }
 		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
@@ -74,14 +73,13 @@ class GUIFrame : public wxFrame
 		virtual void OnZoomOut( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnPrevious( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnNext( wxCommandEvent& event ) { event.Skip(); }
-		
-	
+
+
 	public:
-		
+
 		GUIFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("hpicview"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 670,560 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
-		
+
 		~GUIFrame();
-	
+
 };
 
-#endif //__GUIFRAME_H__

@@ -1,4 +1,4 @@
-#include "hpicviewMain.h"
+#include "hpicviewMain.hpp"
 
 void hpicviewFrame::OnPrevious(wxCommandEvent&) {
     if (!filenames_images.empty()) {

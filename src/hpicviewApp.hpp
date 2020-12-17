@@ -11,7 +11,7 @@
 
 #include <wx/app.h>
 
-#include "hpicviewMain.h"
+#include "hpicviewMain.hpp"
 
 class hpicviewApp : public wxApp
 {

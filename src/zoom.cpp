@@ -1,4 +1,4 @@
-#include "hpicviewMain.h"
+#include "hpicviewMain.hpp"
 
 #include <cmath>
 #include <wx/msgdlg.h>

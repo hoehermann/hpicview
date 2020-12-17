@@ -10,7 +10,7 @@
 #pragma once
 
 #include "GUIFrame.h"
-#include "jpegtran.h"
+#include "jpegtran.hpp"
 #include <string>
 
 #include <boost/filesystem.hpp>

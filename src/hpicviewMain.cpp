@@ -7,7 +7,7 @@
  * License:   GNU GPLv3
  **************************************************************/
 
-#include "hpicviewMain.h"
+#include "hpicviewMain.hpp"
 #include "droptarget.hpp"
 
 #include <fstream>
@@ -76,7 +76,7 @@ std::set<wxString> GetImageExts(bool include_alternatives = true)
     return exts;
 }
 
-#include "resources/icon.svg.xpm"
+#include "../resources/icon.svg.xpm"
 
 hpicviewFrame::hpicviewFrame(wxFrame *frame)
     : GUIFrame(frame), m_dirty(false), m_image_extensions(GetImageExts())
@@ -141,7 +141,7 @@ void hpicviewFrame::OnOpen(wxCommandEvent&) {
     exts << GetImageExtWildcard(m_image_extensions);
     exts << "|";
 
-	wxFileDialog openFileDialog(
+    wxFileDialog openFileDialog(
         this, _("Open file"), "", "",
         "JPEG files|*.jpg;*.jpeg;*.JPG|"
         + exts +
@@ -150,7 +150,7 @@ void hpicviewFrame::OnOpen(wxCommandEvent&) {
         wxFD_OPEN, wxDefaultPosition
     );
 
-	if (openFileDialog.ShowModal() == wxID_OK) {
+    if (openFileDialog.ShowModal() == wxID_OK) {
         try {
             OpenFile(openFileDialog.GetPath());
         } catch(std::exception & ex) {
