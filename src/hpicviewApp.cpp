@@ -58,6 +58,11 @@ void hpicviewApp::OnCharHook(wxKeyEvent& event) {
             case WXK_RIGHT:
                 this->frame->OnNext(ce);
             break;
+            case WXK_DELETE:
+                if (event.ShiftDown()) {
+                    this->frame->OnDelete(ce);
+                }
+            break;
             case '+':
             case WXK_ADD:
             case WXK_NUMPAD_ADD:

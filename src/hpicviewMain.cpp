@@ -81,6 +81,7 @@ wxString wxbuildinfo(wxbuildinfoformat format)
     return wxbuild;
 }
 
+#include <iostream>
 
 // based on wxString wxImage::GetImageExtWildcard() from src/common/image.cpp
 std::set<wxString> GetImageExts(bool include_alternatives = true)
@@ -181,8 +182,6 @@ void hpicviewFrame::OnOpen(wxCommandEvent&) {
         }
     }
 }
-
-#include <iostream>
 
 void hpicviewFrame::OpenFile(const wxString & filename) {
     std::string stdstring_filename(wxString_to_std_string(filename));
