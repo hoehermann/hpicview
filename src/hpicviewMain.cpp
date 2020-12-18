@@ -81,7 +81,6 @@ wxString wxbuildinfo(wxbuildinfoformat format)
     return wxbuild;
 }
 
-#include <iostream>
 
 // based on wxString wxImage::GetImageExtWildcard() from src/common/image.cpp
 std::set<wxString> GetImageExts(bool include_alternatives = true)

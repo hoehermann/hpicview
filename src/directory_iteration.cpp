@@ -1,12 +1,10 @@
 #include "hpicviewMain.hpp"
 
 void hpicviewFrame::OnPrevious(wxCommandEvent&) {
-    if (!filenames_images.empty()) {
+    if (!filenames_images.empty() && filenames_position != filenames_images.begin()) {
         auto it = std::prev(filenames_position);
-        if (it != filenames_images.begin()-1) {
-            OpenFile(std_string_to_wxString(it->string()));
-            SetFileIndex(it);
-        }
+        OpenFile(std_string_to_wxString(it->string()));
+        SetFileIndex(it);
     }
 }
 
