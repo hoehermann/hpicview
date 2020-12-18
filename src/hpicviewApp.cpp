@@ -7,6 +7,7 @@
  * License:   GNU GPLv3
  **************************************************************/
 
+#include <wx/msgdlg.h>
 #include "hpicviewApp.hpp"
 
 IMPLEMENT_APP(hpicviewApp);
@@ -21,11 +22,16 @@ bool hpicviewApp::OnInit() {
 
     this->frame->Show();
 
-    if (this->argc == 2) {
-        this->frame->OpenFile(this->argv[1]);
-    }
-
     Bind(wxEVT_CHAR_HOOK, &hpicviewApp::OnCharHook, this);
+
+    if (this->argc >= 2) {
+        try {
+            // generic try-catch in HandleEvent not active, yet
+            this->frame->OpenPath(this->argv[1]);
+        } catch (std::exception & e) {
+            wxMessageBox(e.what(), wxT("hpicview"), wxOK | wxICON_ERROR);
+        }
+    }
 
     return true;
 }
@@ -87,3 +93,11 @@ void hpicviewApp::OnCharHook(wxKeyEvent& event) {
     }
 }
 
+void hpicviewApp::HandleEvent(wxEvtHandler *handler, wxEventFunction func, wxEvent& event) const {
+    try {
+        wxApp::HandleEvent(handler, func, event);
+    } catch (std::exception & e) {
+        // using a message box as cerr is unavailable on win32
+        wxMessageBox(e.what(), wxT("hpicview"), wxOK | wxICON_ERROR);
+    }
+}

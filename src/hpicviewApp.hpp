@@ -20,5 +20,6 @@ class hpicviewApp : public wxApp
         virtual int OnExit();
     private:
         virtual void OnCharHook(wxKeyEvent& event);
+        virtual void HandleEvent(wxEvtHandler *handler, wxEventFunction func, wxEvent& event) const;
         hpicviewFrame* frame;
 };
