@@ -182,6 +182,22 @@ void hpicviewFrame::OnOpen(wxCommandEvent&) {
     }
 }
 
+#include <iostream>
+
+void hpicviewFrame::OpenPath(const wxString & pathname) {
+    boost::filesystem::path path(wxString_to_std_string(pathname));
+    if (boost::filesystem::is_directory(path)) {
+        const auto p = UpdateDirectoryListing(path);
+        // TODO: restructure. this looks ugly. validity of p should not be checked by checking filenames_images.empty()
+        if (!filenames_images.empty()) {
+            //this->m_filename = *p; // setting file-name before image is actually loaded. unsure if this is a good idea since this->m_filename.empty() is a shorthand for "file was loaded"
+            this->OpenFile(std_string_to_wxString(p->string()));
+        }
+    } else {
+        this->OpenFile(pathname);
+    }
+}
+
 void hpicviewFrame::OpenFile(const wxString & filename) {
     std::string stdstring_filename(wxString_to_std_string(filename));
     this->m_imagedata = get_file_contents(stdstring_filename);
@@ -205,7 +221,7 @@ void hpicviewFrame::OpenFile(const wxString & filename) {
         STATUSBAR_COLUMN_MAIN
     );
     if (directory_has_changed) {
-        std::vector<boost::filesystem::path>::iterator p = UpdateDirectoryListing(path);
+        const std::vector<boost::filesystem::path>::iterator p = UpdateDirectoryListing(path);
         SetFileIndex(p);
     }
     FitAndDisplay();

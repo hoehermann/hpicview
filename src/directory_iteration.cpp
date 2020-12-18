@@ -46,10 +46,16 @@ void hpicviewFrame::OnDelete(wxCommandEvent&) {
 
 std::vector<boost::filesystem::path>::iterator
 hpicviewFrame::UpdateDirectoryListing(
-        const boost::filesystem::path & path
+        boost::filesystem::path path
 ) {
-    boost::filesystem::directory_iterator directory_iterator =
-        boost::filesystem::directory_iterator(path.parent_path());
+    boost::filesystem::path directory;
+    if (boost::filesystem::is_directory(path)) {
+        directory = path;
+        path.clear(); // clear path to signalize "no file was opened"
+    } else {
+        directory = path.parent_path();
+    }
+    boost::filesystem::directory_iterator directory_iterator = boost::filesystem::directory_iterator(directory);
     filenames_images.clear();
     std::copy_if(
         directory_iterator, {},
@@ -58,7 +64,15 @@ hpicviewFrame::UpdateDirectoryListing(
             return this->m_image_extensions.count(std_string_to_wxString(p.extension().string()).Lower());
         }
     );
+    if (filenames_images.empty()) {
+        return filenames_images.end();
+    }
     std::sort(filenames_images.begin(), filenames_images.end());
+    if (path.empty()) {
+        // no file was opened, provide first file in list
+        // TODO: do not fail critically if list is empty
+        path = *filenames_images.begin();
+    }
     return find(filenames_images.begin(), filenames_images.end(), path);
 }
 

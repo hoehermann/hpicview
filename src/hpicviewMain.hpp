@@ -24,7 +24,7 @@ class hpicviewFrame: public GUIFrame
     public:
         hpicviewFrame(wxFrame *frame);
         ~hpicviewFrame();
-        void OpenFile(const wxString & filename);
+        void OpenPath(const wxString & pathname);
         // TODO: introduce separate methods not being handlers?
         virtual void OnPrevious(wxCommandEvent& event);
         virtual void OnNext(wxCommandEvent& event);
@@ -37,6 +37,7 @@ class hpicviewFrame: public GUIFrame
         virtual void OnEscape(wxCommandEvent& event);
         virtual void SetConfiguration();
     private:
+        void OpenFile(const wxString & filename);
         virtual void OnQuit(wxCommandEvent& event);
         virtual void OnSize(wxSizeEvent& event);
         virtual void ZoomFit();
@@ -61,7 +62,7 @@ class hpicviewFrame: public GUIFrame
         bool m_dirty;
 
         // for walking the directory
-        std::vector<boost::filesystem::path>::iterator UpdateDirectoryListing(const boost::filesystem::path & path);
+        std::vector<boost::filesystem::path>::iterator UpdateDirectoryListing(boost::filesystem::path path);
         void SetFileIndex(const std::vector<boost::filesystem::path>::iterator & p);
         std::vector<boost::filesystem::path> filenames_images;
         std::vector<boost::filesystem::path>::iterator filenames_position;
