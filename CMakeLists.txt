@@ -101,10 +101,8 @@ submodules/libjpeg/transupp.h
 if(MSVC)
     add_custom_command(
       OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h
-      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/libjpeg
-      COMMAND nmake /f Makefile.vc setup-v10
-      COMMAND ${CMAKE_COMMAND} -E rename ${CMAKE_CURRENT_SOURCE_DIR}/submodules/libjpeg/jconfig.h ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h
-      DEPENDS ${JPEGTRAN_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/submodules/libjpeg/win32.mak
+	  COMMAND ${CMAKE_COMMAND} -E rename ${CMAKE_CURRENT_SOURCE_DIR}/submodules/libjpeg/jconfig.vc ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h # this actually seems to suffice
+      DEPENDS ${JPEGTRAN_SOURCES}
     )
 elseif(UNIX)
     add_custom_command(
