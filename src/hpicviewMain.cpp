@@ -166,9 +166,8 @@ void hpicviewFrame::OnOpen(wxCommandEvent&) {
 
     wxFileDialog openFileDialog(
         this, _("Open file"), "", "",
-        "JPEG files|*.jpg;*.jpeg;*.JPG|"
-        + exts +
-        // "All built-in image files "+wxImage::GetImageExtWildcard()+"|"
+        exts + // "All built-in image files "+wxImage::GetImageExtWildcard()+"|"
+        "JPEG files|*.jpg;*.jpeg;*.JPG|" +
         "All files|*.*",
         wxFD_OPEN, wxDefaultPosition
     );
