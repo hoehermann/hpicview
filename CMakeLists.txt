@@ -143,6 +143,7 @@ src/hpicviewMain.cpp
 src/hpicviewMain.hpp
 src/rotate.cpp
 src/zoom.cpp
+src/hpicview.rc
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE ${wxWidgets_LIBRARIES} Boost::filesystem ${CPPJPEGTRAN_NAME}) # Boost::boost Boost::filesystem
 
