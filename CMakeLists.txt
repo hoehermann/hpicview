@@ -147,3 +147,5 @@ src/rotate.cpp
 src/zoom.cpp
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE ${wxWidgets_LIBRARIES} Boost::filesystem ${CPPJPEGTRAN_NAME}) # Boost::boost Boost::filesystem
+
+install(TARGETS ${PROJECT_NAME})
