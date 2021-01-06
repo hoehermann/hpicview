@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Oct 26 2018)
+// C++ code generated with wxFormBuilder (version 3.9.0 Jan  6 2021)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO *NOT* EDIT THIS FILE!
@@ -9,6 +9,7 @@
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
+#include "wx/generic/statbmpg.h"
 #include <wx/string.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
@@ -56,7 +57,7 @@ class GUIFrame : public wxFrame
 		wxToolBarToolBase* toolNext;
 		wxToolBarToolBase* toolAbout;
 		wxScrolledWindow* mainScrolledWindow;
-		wxStaticBitmap* bitmap;
+		wxGenericStaticBitmap* bitmap;
 		wxStatusBar* statusBar;
 
 		// Virtual event handlers, overide them in your derived class

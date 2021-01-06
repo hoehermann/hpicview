@@ -157,5 +157,6 @@ endif()
 install(TARGETS ${PROJECT_NAME}
 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
+# TODO optional for i in *.svg ; do inkscape --without-gui $i --export-height=48 -e $i.png ; done
 # TODO install resources/icon.svg to …/share/icons/hicolor/scalable/apps/hpicview.svg
 # TODO install hpicview.desktop …/share/applications/hpicview.desktop

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Oct 26 2018)
+// C++ code generated with wxFormBuilder (version 3.9.0 Jan  6 2021)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO *NOT* EDIT THIS FILE!
@@ -103,7 +103,7 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* mainScrolledWindowSizer;
 	mainScrolledWindowSizer = new wxBoxSizer( wxVERTICAL );
 
-	bitmap = new wxStaticBitmap( mainScrolledWindow, wxID_ANY, icon_svg_png_to_wx_bitmap(), wxDefaultPosition, wxDefaultSize, 0 );
+	bitmap = new wxGenericStaticBitmap( mainScrolledWindow, wxID_ANY, icon_svg_png_to_wx_bitmap(), wxDefaultPosition, wxDefaultSize, 0 );
 	mainScrolledWindowSizer->Add( bitmap, 1, wxEXPAND, 5 );
 
 
