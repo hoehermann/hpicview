@@ -1,3 +1,5 @@
+#pragma once
+
 #include <wx/dnd.h>
 
 /* from https://forums.wxwidgets.org/viewtopic.php?t=35912 */

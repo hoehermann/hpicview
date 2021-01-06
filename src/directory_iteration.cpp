@@ -18,32 +18,6 @@ void hpicviewFrame::OnNext(wxCommandEvent&) {
     }
 }
 
-void hpicviewFrame::OnDelete(wxCommandEvent&) {
-    if (!this->m_filename.empty()) {
-        //assert(filenames_images.empty());
-        boost::filesystem::remove(this->m_filename); // remove current file from disk
-        ptrdiff_t pos = std::distance(filenames_images.begin(), filenames_position); // get position of just deleted file
-        if (pos < filenames_images.size() - 1) { // there is a file after the just deleted one
-            auto next = filenames_images.begin() + pos + 1;
-            OpenFile(std_string_to_wxString(next->string())); // open next file
-        } else { // was at the end
-            pos--; // list is now shorter
-            if (pos >= 0) { // there is a file before the just deleted one
-                auto previous = filenames_images.begin() + pos;
-                OpenFile(std_string_to_wxString(previous->string())); // open previous file
-            }
-        }
-        filenames_images.erase(filenames_position); // remove just deleted file from directory list
-        SetFileIndex(filenames_images.begin() + pos); // update iterator (still points to the current position, now another file)
-        if (filenames_images.empty()) {
-            SetStatusText(
-                wxT("The file has been deleted. No more files remain in directory."), 
-                STATUSBAR_COLUMN_MAIN
-            );
-        }
-    }
-}
-
 std::vector<boost::filesystem::path>::iterator
 hpicviewFrame::UpdateDirectoryListing(
         boost::filesystem::path path
