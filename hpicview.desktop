@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=hpicview
+MimeType=image/*;
+Exec=hpicview %f
+StartupNotify=true
+Icon=hpicview
+Categories=Graphics;

@@ -124,17 +124,18 @@ ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h
 )
 target_include_directories(${CPPJPEGTRAN_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR} submodules/libjpeg)
 set_target_properties(${CPPJPEGTRAN_NAME} PROPERTIES C_VISIBILITY_PRESET hidden)
-if(MSVC)
-    target_compile_definitions(${CPPJPEGTRAN_NAME} PRIVATE -D_CRT_SECURE_NO_WARNINGS)
-endif()
 
 set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost REQUIRED COMPONENTS filesystem)
 find_package(wxWidgets REQUIRED COMPONENTS core base)
 include(${wxWidgets_USE_FILE})
 add_executable(${PROJECT_NAME} WIN32 
+src/about.cpp
 src/directory_iteration.cpp
 src/droptarget.hpp
+src/extensions.cpp
+src/extensions.hpp
+src/file_handling.cpp
 src/GUIFrame.cpp
 src/GUIFrame.h
 src/hpicviewApp.cpp
@@ -143,8 +144,17 @@ src/hpicviewMain.cpp
 src/hpicviewMain.hpp
 src/rotate.cpp
 src/zoom.cpp
-src/hpicview.rc
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE ${wxWidgets_LIBRARIES} Boost::filesystem ${CPPJPEGTRAN_NAME}) # Boost::boost Boost::filesystem
+if(MSVC)
+	target_sources(${PROJECT_NAME} PRIVATE src/hpicview.rc resources/icon.ico) # executable icon
+	# have MSVC shut up about ansi C functions being "unsafe"
+    target_compile_definitions(${CPPJPEGTRAN_NAME} PRIVATE -D_CRT_SECURE_NO_WARNINGS)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE -D_CRT_SECURE_NO_WARNINGS)
+endif()
 
-install(TARGETS ${PROJECT_NAME})
+install(TARGETS ${PROJECT_NAME}
+RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+# TODO install resources/icon.svg to …/share/icons/hicolor/scalable/apps/hpicview.svg
+# TODO install hpicview.desktop …/share/applications/hpicview.desktop
