@@ -46,8 +46,15 @@ int hpicviewApp::OnExit() {
 /* from http://blog.pcitron.fr/2012/09/11/application-wide-shortcuts-with-wxwidgets-on-windows/ */
 void hpicviewApp::OnCharHook(wxKeyEvent& event) {
     if (event.ControlDown()) {
-        // do not swallow "real" shortcuts (with ctrl pressed)
-        event.Skip();
+        switch (event.GetKeyCode()) {
+            case 'C':
+                this->frame->CopyToClipboard();
+            break;
+            default:
+                // with ctrl pressed, do not swallow "real" shortcuts
+                event.Skip();
+            break;
+        }
     } else {
         wxCommandEvent ce(wxEVT_NULL, 0);
         switch (event.GetKeyCode()) {

@@ -131,6 +131,7 @@ find_package(wxWidgets REQUIRED COMPONENTS core base)
 include(${wxWidgets_USE_FILE})
 add_executable(${PROJECT_NAME} WIN32 
 src/about.cpp
+src/clipboard.cpp
 src/directory_iteration.cpp
 src/droptarget.hpp
 src/extensions.cpp
