@@ -1,7 +1,5 @@
 # TODOs
 
-* do not crash if image cannot be loaded (due to deletion)
-* OpenFile should be able to handle a directory for file path, too
 * show filename in fullscreen
 * add option for chosing background colour
 * add indication for being busy when loading image (while traversing direvtory)
