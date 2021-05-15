@@ -18,7 +18,7 @@ bool hpicviewApp::OnInit() {
 
     this->frame = new hpicviewFrame(0L);
 
-    this->frame->SetConfiguration();
+    this->frame->LoadConfiguration();
 
     this->frame->Show();
 

@@ -35,7 +35,7 @@ class hpicviewFrame: public GUIFrame
         virtual void OnZoomIn(wxCommandEvent& event);
         virtual void OnToggleFullScreen(wxCommandEvent& event);
         virtual void OnEscape(wxCommandEvent& event);
-        virtual void SetConfiguration();
+        virtual void LoadConfiguration();
         void CopyToClipboard();
     private:
         void OpenFile(const wxString & filename);

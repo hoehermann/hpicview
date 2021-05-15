@@ -58,9 +58,10 @@ void hpicviewFrame::OnOpen(wxCommandEvent&) {
     }
 }
 
-void hpicviewFrame::SetConfiguration() {
+void hpicviewFrame::LoadConfiguration() {
     // TODO: read/write configuration from/to file
     // this->menuViewZoomFitAuto->Checked(true);
+    this->Maximize();
 }
 
 void hpicviewFrame::OnToggleFullScreen(wxCommandEvent&) {
