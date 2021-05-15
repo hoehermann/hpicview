@@ -9,12 +9,14 @@
 
 #include <wx/msgdlg.h>
 #include "hpicviewApp.hpp"
+#include "wx/imagwebp.hpp"
 
 IMPLEMENT_APP(hpicviewApp);
 
 bool hpicviewApp::OnInit() {
     /* from https://forums.wxwidgets.org/viewtopic.php?t=21065 */
     wxInitAllImageHandlers();
+    wxImage::AddHandler(new wxWEBPHandler);
 
     this->frame = new hpicviewFrame(0L);
 
