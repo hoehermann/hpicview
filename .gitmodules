@@ -3,3 +3,6 @@
 	url = https://github.com/wxWidgets/libjpeg-turbo.git
 	branch = wx
 	ignore = all
+[submodule "submodules/wxWEBPHandler"]
+	path = submodules/wxWEBPHandler
+	url = https://github.com/hoehermann/wxWEBPHandler.git

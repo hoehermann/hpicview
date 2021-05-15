@@ -100,17 +100,18 @@ submodules/libjpeg/transupp.h
 # auto-generating jconfig.h. it must exist so the compiler does not pick up the system-suppiled one (if there is one)
 if(MSVC)
     add_custom_command(
-      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h
-	  COMMAND ${CMAKE_COMMAND} -E rename ${CMAKE_CURRENT_SOURCE_DIR}/submodules/libjpeg/jconfig.vc ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h # this actually seems to suffice
-      DEPENDS ${JPEGTRAN_SOURCES}
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/submodules/libjpeg/jconfig.vc ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h # this actually seems to suffice
+        DEPENDS ${JPEGTRAN_SOURCES}
     )
+    file(REMOVE ${CMAKE_CURRENT_SOURCE_DIR}/submodules/libjpeg/jconfig.h) # must delete UNIX variant to avoid compiler confusion
 elseif(UNIX)
     add_custom_command(
-      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h
-      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/libjpeg
-      COMMAND ./configure
-      COMMAND ${CMAKE_COMMAND} -E rename ${CMAKE_CURRENT_SOURCE_DIR}/submodules/libjpeg/jconfig.h ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h
-      DEPENDS ${JPEGTRAN_SOURCES}
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/submodules/libjpeg
+        COMMAND ./configure
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/submodules/libjpeg/jconfig.h ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h
+        DEPENDS ${JPEGTRAN_SOURCES}
     )
 else()
     message(FATAL_ERROR "I have no idea how to generate jconfig.h on this system.")
@@ -125,7 +126,9 @@ ${CMAKE_CURRENT_BINARY_DIR}/jconfig.h
 target_include_directories(${CPPJPEGTRAN_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR} submodules/libjpeg)
 set_target_properties(${CPPJPEGTRAN_NAME} PROPERTIES C_VISIBILITY_PRESET hidden)
 
-set(Boost_USE_STATIC_LIBS ON)
+add_subdirectory(submodules/wxWEBPHandler)
+
+#set(Boost_USE_STATIC_LIBS ON) # on Windows, this may lead to the slightly confusing error "Could NOT find Boost (missing: filesystem) (found version "1.74.0")"
 find_package(Boost REQUIRED COMPONENTS filesystem)
 find_package(wxWidgets REQUIRED COMPONENTS core base)
 include(${wxWidgets_USE_FILE})
@@ -146,12 +149,16 @@ src/hpicviewMain.hpp
 src/rotate.cpp
 src/zoom.cpp
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE ${wxWidgets_LIBRARIES} Boost::filesystem ${CPPJPEGTRAN_NAME}) # Boost::boost Boost::filesystem
+target_include_directories(${PROJECT_NAME} PRIVATE submodules/wxWEBPHandler/include)
+target_compile_definitions(${PROJECT_NAME} PRIVATE wxUSE_WEBP)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${wxWidgets_LIBRARIES} Boost::filesystem ${CPPJPEGTRAN_NAME} wxWEBPHandler)
 if(MSVC)
-	target_sources(${PROJECT_NAME} PRIVATE src/hpicview.rc resources/icon.ico) # executable icon
-	# have MSVC shut up about ansi C functions being "unsafe"
-    target_compile_definitions(${CPPJPEGTRAN_NAME} PRIVATE -D_CRT_SECURE_NO_WARNINGS)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE -D_CRT_SECURE_NO_WARNINGS)
+    target_sources(${PROJECT_NAME} PRIVATE src/hpicview.rc resources/icon.ico) # executable icon
+    # have MSVC shut up about ansi C functions being "unsafe"
+    target_compile_definitions(${CPPJPEGTRAN_NAME} PRIVATE _CRT_SECURE_NO_WARNINGS)
+    # TODO: also suppress MSVC C4996
+    target_compile_definitions(${PROJECT_NAME} PRIVATE _CRT_SECURE_NO_WARNINGS)
+    # TODO: find out how to handle https://stackoverflow.com/questions/3007312/resolving-lnk4098-defaultlib-msvcrt-conflicts-with
 endif()
 
 install(TARGETS ${PROJECT_NAME}
