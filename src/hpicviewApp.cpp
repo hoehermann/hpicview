@@ -47,6 +47,10 @@ int hpicviewApp::OnExit() {
 
 /* from http://blog.pcitron.fr/2012/09/11/application-wide-shortcuts-with-wxwidgets-on-windows/ */
 void hpicviewApp::OnCharHook(wxKeyEvent& event) {
+    if (!this->frame->IsActive()) {
+        event.Skip();
+        return;
+    }
     if (event.ControlDown()) {
         switch (event.GetKeyCode()) {
             case 'C':
