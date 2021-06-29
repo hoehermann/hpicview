@@ -148,6 +148,8 @@ src/hpicviewMain.cpp
 src/hpicviewMain.hpp
 src/rotate.cpp
 src/zoom.cpp
+src/sstatbmp.cpp
+src/sstatbmp.h
 )
 target_include_directories(${PROJECT_NAME} PRIVATE submodules/wxWEBPHandler/include)
 target_compile_definitions(${PROJECT_NAME} PRIVATE wxUSE_WEBP wxOVERRIDE=)

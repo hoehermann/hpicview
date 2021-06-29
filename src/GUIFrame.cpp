@@ -103,7 +103,7 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* mainScrolledWindowSizer;
 	mainScrolledWindowSizer = new wxBoxSizer( wxVERTICAL );
 
-	bitmap = new wxGenericStaticBitmap( mainScrolledWindow, wxID_ANY, icon_svg_png_to_wx_bitmap(), wxDefaultPosition, wxDefaultSize, 0 );
+	bitmap = new wxSelectableStaticBitmap( mainScrolledWindow, wxID_ANY, icon_svg_png_to_wx_bitmap(), wxDefaultPosition, wxDefaultSize, 0 );
 	mainScrolledWindowSizer->Add( bitmap, 1, wxEXPAND, 5 );
 
 
@@ -135,6 +135,9 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->Connect( toolPrevious->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnPrevious ) );
 	this->Connect( toolNext->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnNext ) );
 	this->Connect( toolAbout->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnAbout ) );
+	bitmap->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( GUIFrame::OnLeftDown ), NULL, this );
+	bitmap->Connect( wxEVT_MOTION, wxMouseEventHandler( GUIFrame::OnMotion ), NULL, this );
+	bitmap->Connect( wxEVT_RIGHT_UP, wxMouseEventHandler( GUIFrame::OnRightUp ), NULL, this );
 }
 
 GUIFrame::~GUIFrame()
@@ -152,5 +155,8 @@ GUIFrame::~GUIFrame()
 	this->Disconnect( toolPrevious->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnPrevious ) );
 	this->Disconnect( toolNext->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnNext ) );
 	this->Disconnect( toolAbout->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( GUIFrame::OnAbout ) );
+	bitmap->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( GUIFrame::OnLeftDown ), NULL, this );
+	bitmap->Disconnect( wxEVT_MOTION, wxMouseEventHandler( GUIFrame::OnMotion ), NULL, this );
+	bitmap->Disconnect( wxEVT_RIGHT_UP, wxMouseEventHandler( GUIFrame::OnRightUp ), NULL, this );
 
 }

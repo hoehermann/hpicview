@@ -491,12 +491,15 @@
                                     <property name="resize">Resizable</property>
                                     <property name="show">1</property>
                                     <property name="size"></property>
-                                    <property name="subclass">wxGenericStaticBitmap; wx/generic/statbmpg.h; </property>
+                                    <property name="subclass">wxSelectableStaticBitmap; sstatbmp.h; </property>
                                     <property name="toolbar_pane">0</property>
                                     <property name="tooltip"></property>
                                     <property name="window_extra_style"></property>
                                     <property name="window_name"></property>
                                     <property name="window_style"></property>
+                                    <event name="OnLeftDown">OnLeftDown</event>
+                                    <event name="OnMotion">OnMotion</event>
+                                    <event name="OnRightUp">OnRightUp</event>
                                 </object>
                             </object>
                         </object>

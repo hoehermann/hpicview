@@ -9,7 +9,7 @@
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
-#include "wx/generic/statbmpg.h"
+#include "sstatbmp.h"
 #include <wx/string.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
@@ -57,7 +57,7 @@ class GUIFrame : public wxFrame
 		wxToolBarToolBase* toolNext;
 		wxToolBarToolBase* toolAbout;
 		wxScrolledWindow* mainScrolledWindow;
-		wxGenericStaticBitmap* bitmap;
+		wxSelectableStaticBitmap* bitmap;
 		wxStatusBar* statusBar;
 
 		// Virtual event handlers, overide them in your derived class
@@ -74,6 +74,9 @@ class GUIFrame : public wxFrame
 		virtual void OnZoomOut( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnPrevious( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnNext( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnLeftDown( wxMouseEvent& event ) { event.Skip(); }
+		virtual void OnMotion( wxMouseEvent& event ) { event.Skip(); }
+		virtual void OnRightUp( wxMouseEvent& event ) { event.Skip(); }
 
 
 	public:

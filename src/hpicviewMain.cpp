@@ -88,3 +88,17 @@ bool hpicviewFrame::OnDropFile(wxCoord, wxCoord, const wxArrayString& paths) {
     }
     return false;
 }
+
+void hpicviewFrame::OnLeftDown(wxMouseEvent& event) {
+    this->bitmap->UpdateSelection(event.GetPosition());
+}
+
+void hpicviewFrame::OnRightUp(wxMouseEvent& event) {
+    this->bitmap->ClearSelection();
+}
+
+void hpicviewFrame::OnMotion(wxMouseEvent& event) {
+    if (wxGetMouseState().LeftIsDown()) {
+        this->bitmap->UpdateSelection(event.GetPosition());
+    }
+}

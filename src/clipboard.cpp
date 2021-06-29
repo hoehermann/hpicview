@@ -7,11 +7,22 @@ void hpicviewFrame::CopyToClipboard() {
         throw std::runtime_error("Could not access the clipboard.");
     }
     if (m_image.IsOk()) {
-        this->Enable(false);
-        bool ok = wxTheClipboard->AddData(new wxBitmapDataObject(bitmap->GetBitmap()));
-        this->Enable(true);
+        bool ok = false;
+        //this->Enable(false); // this seems to mess up OnCharHook :/
+        // TODO: keep original image, set display scaling for accurate selection and copying from m_image
+        const wxBitmap & bm = bitmap->GetBitmap();
+        if (bitmap->HasSelection()) {
+            wxRect bmrect(wxPoint(0,0), bm.GetSize());
+            wxRect selection = bitmap->GetSelection();
+            wxASSERT(bmrect.Contains(selection));
+            ok = wxTheClipboard->SetData(new wxBitmapDataObject(bm.GetSubBitmap(selection)));
+        } else {
+            ok = wxTheClipboard->SetData(new wxBitmapDataObject(bm));
+        }
+        //this->Enable(true);
         if (!ok) {
             throw std::runtime_error("Copying to clipboard has failed.");
         }
     }
+    wxTheClipboard->Close();
 }
