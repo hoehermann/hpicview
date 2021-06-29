@@ -9,7 +9,7 @@
 
 #include <wx/msgdlg.h>
 #include "hpicviewApp.hpp"
-#include "wx/imagwebp.hpp"
+#include "wx/imagwebp.h"
 
 IMPLEMENT_APP(hpicviewApp);
 

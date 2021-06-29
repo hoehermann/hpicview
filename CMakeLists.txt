@@ -150,7 +150,7 @@ src/rotate.cpp
 src/zoom.cpp
 )
 target_include_directories(${PROJECT_NAME} PRIVATE submodules/wxWEBPHandler/include)
-target_compile_definitions(${PROJECT_NAME} PRIVATE wxUSE_WEBP)
+target_compile_definitions(${PROJECT_NAME} PRIVATE wxUSE_WEBP wxOVERRIDE=)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${wxWidgets_LIBRARIES} Boost::filesystem ${CPPJPEGTRAN_NAME} wxWEBPHandler)
 if(MSVC)
     target_sources(${PROJECT_NAME} PRIVATE src/hpicview.rc resources/icon.ico) # executable icon
