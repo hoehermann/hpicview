@@ -13,9 +13,9 @@
 #include "jpegtran.hpp"
 #include <string>
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
+#include <vector>
 #include <set>
-
 
 wxString std_string_to_wxString(const std::string & stdstring);
 
@@ -54,22 +54,22 @@ class hpicviewFrame: public GUIFrame
 
         void SetImageData(const std::string & imagedata);
         void WriteIfDirty();
-        void Write(const wxString & filename); // TODO: switch to boost::filesystem::path
+        void Write(const wxString & filename); // TODO: switch to filesystem::path
         void ScaleImage(float view_zoom_exponent, wxImageResizeQuality quality);
         void SetViewZoomExponent(float view_zoom_exponent);
 
         // these represent the currently loaded image
-        boost::filesystem::path m_filename;
-        std::time_t m_modification_date;
+        std::filesystem::path m_filename;
+        std::filesystem::file_time_type m_modification_date;
         std::string m_imagedata;
         wxImage m_image;
         bool m_dirty;
 
         // for walking the directory
-        std::vector<boost::filesystem::path>::iterator UpdateDirectoryListing(boost::filesystem::path path);
-        void SetFileIndex(const std::vector<boost::filesystem::path>::iterator & p);
-        std::vector<boost::filesystem::path> filenames_images;
-        std::vector<boost::filesystem::path>::iterator filenames_position;
+        std::vector<std::filesystem::path>::iterator UpdateDirectoryListing(std::filesystem::path path);
+        void SetFileIndex(const std::vector<std::filesystem::path>::iterator & p);
+        std::vector<std::filesystem::path> filenames_images;
+        std::vector<std::filesystem::path>::iterator filenames_position;
 
         // configuration
         std::set<wxString> m_image_extensions;

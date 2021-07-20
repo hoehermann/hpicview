@@ -128,8 +128,6 @@ set_target_properties(${CPPJPEGTRAN_NAME} PROPERTIES C_VISIBILITY_PRESET hidden)
 
 add_subdirectory(submodules/wxWEBPHandler)
 
-#set(Boost_USE_STATIC_LIBS ON) # on Windows, this may lead to the slightly confusing error "Could NOT find Boost (missing: filesystem) (found version "1.74.0")"
-find_package(Boost REQUIRED COMPONENTS filesystem)
 find_package(wxWidgets REQUIRED COMPONENTS core base)
 include(${wxWidgets_USE_FILE})
 add_executable(${PROJECT_NAME} WIN32 
@@ -151,9 +149,10 @@ src/zoom.cpp
 src/sstatbmp.cpp
 src/sstatbmp.h
 )
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 target_include_directories(${PROJECT_NAME} PRIVATE submodules/wxWEBPHandler/include)
 target_compile_definitions(${PROJECT_NAME} PRIVATE wxUSE_WEBP wxOVERRIDE=)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${wxWidgets_LIBRARIES} Boost::filesystem ${CPPJPEGTRAN_NAME} wxWEBPHandler)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${wxWidgets_LIBRARIES} ${CPPJPEGTRAN_NAME} wxWEBPHandler)
 if(MSVC)
     target_sources(${PROJECT_NAME} PRIVATE src/hpicview.rc resources/icon.ico) # executable icon
     # have MSVC shut up about ansi C functions being "unsafe"

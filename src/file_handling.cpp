@@ -44,8 +44,8 @@ std::string get_file_contents(const std::string & filename)
 }
 
 void hpicviewFrame::OpenPath(const wxString & pathname) {
-    boost::filesystem::path path(wxString_to_std_string(pathname));
-    if (boost::filesystem::is_directory(path)) {
+    std::filesystem::path path(wxString_to_std_string(pathname));
+    if (std::filesystem::is_directory(path)) {
         const auto p = UpdateDirectoryListing(path);
         // TODO: restructure. this looks ugly. validity of p should not be checked by checking filenames_images.empty()
         if (!filenames_images.empty()) {
@@ -61,9 +61,9 @@ void hpicviewFrame::OpenFile(const wxString & filename) {
     std::string stdstring_filename(wxString_to_std_string(filename));
     this->m_imagedata = get_file_contents(stdstring_filename);
     SetImageData(m_imagedata);
-    boost::filesystem::path path(stdstring_filename);
-    //path = boost::filesystem::canonical(path); // TODO: check how to get parent in case of file name supplied only
-    this->m_modification_date = boost::filesystem::last_write_time(path);
+    std::filesystem::path path(stdstring_filename);
+    //path = std::filesystem::canonical(path); // TODO: check how to get parent in case of file name supplied only
+    this->m_modification_date = std::filesystem::last_write_time(path);
     bool directory_has_changed = this->m_filename.empty() || this->m_filename.parent_path() != path.parent_path();
     this->m_filename = path;
 
@@ -80,7 +80,7 @@ void hpicviewFrame::OpenFile(const wxString & filename) {
         STATUSBAR_COLUMN_MAIN
     );
     if (directory_has_changed) {
-        const std::vector<boost::filesystem::path>::iterator p = UpdateDirectoryListing(path);
+        const std::vector<std::filesystem::path>::iterator p = UpdateDirectoryListing(path);
         SetFileIndex(p);
     }
     FitAndDisplay();
@@ -89,8 +89,8 @@ void hpicviewFrame::OpenFile(const wxString & filename) {
 void hpicviewFrame::WriteIfDirty() {
     if (m_dirty) {
         Write(wxString(this->m_filename.c_str()));
-        boost::filesystem::last_write_time(
-            boost::filesystem::path(this->m_filename),
+        std::filesystem::last_write_time(
+            std::filesystem::path(this->m_filename),
             this->m_modification_date
         );
     }
@@ -118,7 +118,7 @@ void hpicviewFrame::SetImageData(const std::string & imagedata) {
 void hpicviewFrame::OnDelete(wxCommandEvent&) {
     if (!this->m_filename.empty()) {
         //assert(filenames_images.empty());
-        boost::filesystem::remove(this->m_filename); // remove current file from disk
+        std::filesystem::remove(this->m_filename); // remove current file from disk
         ptrdiff_t pos = std::distance(filenames_images.begin(), filenames_position); // get position of just deleted file
         if (pos < ptrdiff_t(filenames_images.size() - 1)) { // there is a file after the just deleted one
             auto next = filenames_images.begin() + pos + 1;

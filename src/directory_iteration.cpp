@@ -1,5 +1,7 @@
 #include "hpicviewMain.hpp"
 
+#include <algorithm>
+
 void hpicviewFrame::OnPrevious(wxCommandEvent&) {
     if (!filenames_images.empty() && filenames_position != filenames_images.begin()) {
         auto it = std::prev(filenames_position);
@@ -18,23 +20,23 @@ void hpicviewFrame::OnNext(wxCommandEvent&) {
     }
 }
 
-std::vector<boost::filesystem::path>::iterator
+std::vector<std::filesystem::path>::iterator
 hpicviewFrame::UpdateDirectoryListing(
-        boost::filesystem::path path
+        std::filesystem::path path
 ) {
-    boost::filesystem::path directory;
-    if (boost::filesystem::is_directory(path)) {
+    std::filesystem::path directory;
+    if (std::filesystem::is_directory(path)) {
         directory = path;
         path.clear(); // clear path to signalize "no file was opened"
     } else {
         directory = path.parent_path();
     }
-    boost::filesystem::directory_iterator directory_iterator = boost::filesystem::directory_iterator(directory);
+    std::filesystem::directory_iterator directory_iterator = std::filesystem::directory_iterator(directory);
     filenames_images.clear();
     std::copy_if(
         directory_iterator, {},
         std::back_inserter(filenames_images),
-        [this](const boost::filesystem::path & p){
+        [this](const std::filesystem::path & p){
             return this->m_image_extensions.count(std_string_to_wxString(p.extension().string()).Lower());
         }
     );
@@ -50,7 +52,7 @@ hpicviewFrame::UpdateDirectoryListing(
     return find(filenames_images.begin(), filenames_images.end(), path);
 }
 
-void hpicviewFrame::SetFileIndex(const std::vector<boost::filesystem::path>::iterator & p) {
+void hpicviewFrame::SetFileIndex(const std::vector<std::filesystem::path>::iterator & p) {
     this->filenames_position = p;
     ptrdiff_t pos = std::distance(filenames_images.begin(), filenames_position);
     SetStatusText(wxString::Format(
